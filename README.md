@@ -3,6 +3,8 @@
 
 ## Group members:
 
+- Ignasi Puch (admin)
+
 -Edgar Alvarez
 
 -Alba Fischer
@@ -11,7 +13,6 @@
 
 -Arnau Prat
 
--Ignasi Puch (admin)
 
 ## Tasks:
 
