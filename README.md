@@ -3,7 +3,7 @@
 
 ## Group members:
 
-- Ignasi Puch (admin)
+-Ignasi Puch (admin: ignasipuch @ github)
 
 -Edgar Alvarez
 
