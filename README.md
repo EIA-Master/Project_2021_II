@@ -20,5 +20,5 @@
 - Boundy conditions: Jaume
 - Forces: Alba
 - Integration: Edgar
-- Statistics: Arnau
-- Visualitzation of results: Ignasi
+- Statistics: Ignasi
+- Visualitzation of results: Arnau
