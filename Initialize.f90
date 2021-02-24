@@ -3,7 +3,7 @@ IMPLICIT NONE
 CONTAINS
 
 
-SUBROUTINE INITIAL(Natoms,RO,TEMP,POSI,VEL)
+SUBROUTINE INITIAL(Natoms,RO,TEMP,POSI,VEL,L)
 ! Given a total number of particles Natoms, a densiry RO and a temperature TEMP, this subroutine returns the initial position POSI(3,Natoms) of those particles in a 3D sc lattice and it's initial velocities VEL(3,Natoms). The velocities are set in a MB distribution
 IMPLICIT NONE
 DOUBLE PRECISION RO,TEMP,POSI(3,Natoms),VEL(3,Natoms),A,L
