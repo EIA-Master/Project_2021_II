@@ -19,6 +19,6 @@
 - Initial state: Arnau
 - Boundy conditions: Jaume
 - Forces: Alba
-- Integration: Edgar
 - Statistics: Ignasi
+- Integration: Edgar
 - Visualitzation of results: Arnau
