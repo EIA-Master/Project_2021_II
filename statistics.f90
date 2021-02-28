@@ -21,7 +21,7 @@ kin = 0.d0
 do II = 1,Natoms
     do JJ = 1,3
 
-        kin  =kin + vel(JJ,II)**2.d0
+        kin = kin + vel(JJ,II)**2.d0
 
     enddo
 enddo
