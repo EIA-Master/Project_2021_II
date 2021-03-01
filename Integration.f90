@@ -6,7 +6,7 @@
 	IMPLICIT NONE
 	CONTAINS 
 	
-	SUBROUTINE Velocity_Verlet(N,dt,L,r,v,F,rnew,vnew,Fnew)
+	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,rnew,vnew,Fnew)
 ! This subroutine implements one step of the velocity Verlet algorithm.
 ! INPUT
 !	N  --> Number of particles.
@@ -20,39 +20,45 @@
 !	rnew --> New positions of the particles (after implementing the step).
 !	vnew --> New velocities of the particles.
 !	Fnew --> New forces between particles.
-	USE boundary
+	USE boundary, forces
 	IMPLICIT NONE
 	INTEGER, intent(in) :: N
 	REAL*8, intent(in) dt, L
 	REAL*8, intent(inout) :: r(3,N), rnew(3,N)
 	REAL*8, intent(inout) :: v(3,N), vnew(3,N)
 	REAL*8, intent(inout) :: F(3,N), Fnew(3,N)
-	INTEGER i
-
+	INTEGER i, j
+	REAL*8, intent(out) :: pot
+	REAL*8 rcut
+	COMMON/Cutoff/rcut
 
 	rnew(:,:) = r(:,:) + v(:,:)*dt + .5d0*F(:,:)*dt*dt ! New coordinates.
 	
 	do i=1,N
-		call pbc1(rnew(:,i)) ! Set periodic boundary conditions (put back particles that escape from the box).
+	  do j=1,3
+		call pbc1(L,rnew(j,i)) ! Set periodic boundary conditions (put back particles that escape from the box).
+	  enddo
 	enddo
 	
-	call forces(N,rnew,Fnew) ! New forces.	
+	call force_LJ(N,L,rcut,rnew,Fnew,pot) ! New forces.	
 	vnew(:,:) = v(:,:) + (F(:,:)+Fnew(:,:))*.5d0*dt ! New velocities.
 
 	return	
 	END SUBROUTINE
 	
-	SUBROUTINE Integrate(Nsteps,Npart,T,dt,rho,p0,v0,pf,vf,ff)
-	use statistics
+	SUBROUTINE Integrate(p0,v0,pf,vf,ff)
+	use statistics, forces
 	IMPLICIT NONE
-	INTEGER, intent(in) :: Nsteps, Npart
-	REAL*8, intent(in) :: T, dt, r0(3,Npart), v0(3,Npart)
+	INTEGER Nsteps, Npart
+	REAL*8 T, dt, rho, L
+	REAL*8, intent(in) :: r0(3,Npart), v0(3,Npart)
 	REAL*8, intent(out) :: pf(3,Npart), vf(3,Npart), ff(3,Npart)
 	REAL*8 pos(3,Npart), v(3,Npart), forc(3,Npart)
 	REAL*8 newp(3,Npart), newv(3,Npart), newf(3,Npart)
 	INTEGER i, j
-	REAL*8 time, KE, PE, totalE, Tinst, pressure
-	
+	REAL*8 time, KE, PE, totalE, Tinst, pressure, rcut
+	COMMON/Parameters/Nsteps,Npart,T,dt,rho, L
+	COMMON/Cutoff/rcut
 	
 1  	FORMAT(A1,2X,3(F14.8,2X))
 2  	FORMAT(5(F14.8,2X))	
@@ -60,20 +66,21 @@
 	open(14,file="Positions.dat")
 	open(15,file="Thermodynamics.dat")
 	
-! Set initial values:
+! Set initial arrays:
 	pos(:,:) = r0(:,:)
-	vel(:,:) = v0(:,:)	
-	
+	vel(:,:) = v0(:,:)
+	call force_LJ(Npart,L,rcut,pos,forc,PE)	
+
 	do i=1,Nsteps
 		time = dble(i)*dt
-		call Velocity_Verlet(N,dt,pos,vel,forc,np,nv,nf)
+		call Velocity_Verlet(Npart,dt,L,pos,vel,forc,np,nv,nf)
 
 		
 ! Write the new positions to in XYZ format (trajectories):		
 		write(14,*) Npart  ! Number of particles in simulation
 		write(14,*) "" ! Blank line
 		do j=1,N
-			write(14,*) "A", pos(j,:)
+			write(14,1) "A", pos(j,:)
 		enddo
 ! For the next iteration:
 		pos = np
@@ -92,7 +99,8 @@
 	
 	close(14)
 	close(15)
-	
+
+! Set final arrays (outputs).	
 	pf = pos
 	vf = vel
 	ff = forc
