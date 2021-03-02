@@ -44,8 +44,13 @@ double precision kine
 integer Nf
 ! ------------------------------------------------------------------ !
 
+<<<<<<< HEAD
 Nf = Natoms - 3
 insttemp = 2.d0*kine/dble(Nf)
+=======
+Nf = 3*Natoms - 3
+temp = 2.d0*kine/dble(Nf)
+>>>>>>> f44aa4075c5adcc40250cbf62f760c16c7b98069
 
 end function insttemp
 
