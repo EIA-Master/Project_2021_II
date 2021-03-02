@@ -131,7 +131,7 @@ C-------------------------------------------------------------------------------
 	SUBROUTINE ANDERSEN(N,T,v)
       IMPLICIT NONE
       INTEGER N, i, k
-      REAL*8 T, sigma, NU, v(N,3), v1, v2
+      REAL*8 T, sigma, NU, v(3,N), v1, v2
       PARAMETER(nu = 0.1d0)
       
       SIGMA = DSQRT(T)
