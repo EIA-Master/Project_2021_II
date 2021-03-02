@@ -13,7 +13,7 @@ module forces
 
       subroutine force_LJ(Natoms,L,cutoff,r,F,Upot)
       implicit none
-      double precision r(3,Natoms),F(Natoms,3),L
+      double precision r(3,Natoms),F(3,Natoms),L
       double precision dr(3),cutoff, cf6,cf12,Upot
       double precision d2,d4,d6,d8,d12,d14,modf     
       integer i,j,k,Natoms
@@ -21,8 +21,8 @@ module forces
       F = 0.d0
       Upot = 0.d0
       do i = 1,Natoms
-            do j = 1,Natoms
-                  dr(:) = r(i,:)-r(j,:)
+            do j = i+1,Natoms
+                  dr(:) = r(:,i)-r(:,j)
                   do k = 1,3
                         call PBC1(L,dr(k))
                   enddo
@@ -36,8 +36,8 @@ module forces
                         cf6 = cutoff**6
                         cf12 = cf6*cf6
                         modf = (48.d0/d14 - 24.d0/d8)
-                        F(i,:) = F(i,:) + modf*dr(:)
-                        F(j,:) = F(j,:) - modf*dr(:)
+                        F(:,i) = F(:,i) + modf*dr(:)
+                        F(:,j) = F(:,j) - modf*dr(:)
                         Upot = Upot+ 4.d0*(1.d0/D12 - 1.d0/D6) - &
                         4.d0*(1.d0/cf12 - 1.d0/cf6)
                   endif

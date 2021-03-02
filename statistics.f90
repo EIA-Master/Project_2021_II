@@ -46,7 +46,7 @@ double precision temp
 integer Nf
 ! ------------------------------------------------------------------ !
 
-Nf = Natoms - 3
+Nf = 3*Natoms - 3
 temp = 2.d0*kine/dble(Nf)
 
 end subroutine insttemp
