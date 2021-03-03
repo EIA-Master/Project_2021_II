@@ -97,12 +97,15 @@ programa.exe
 3. To run the program execute programa.exe.
 
 If you are using LINUX:
+
 :> ./programa.exe
 
 If you are using Windows:
+
 :> .\programa.exe
 
 This will generate two files:
+
   3.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
   3.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
 
