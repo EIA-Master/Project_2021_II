@@ -88,7 +88,7 @@ Makefile used to compile all the modules together along with the main program.
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
 
-  :> make
+        :> make
 
 This will create and executable named programa.exe.
 
