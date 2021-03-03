@@ -105,16 +105,19 @@ This will create and executable named programa.exe.
    This will generate two files:
 
    3.2.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
-  3.2.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
+  
+   3.2.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
 
 4. To visualize the plots you must type in your command line
 
-:> gnuplot grafics.gnu
+        :> gnuplot grafics.gnu
 
 this will generate three plots:
 
   4.1. Energy plot containing the evolution of the potential, the kinetic and the total energy. 
-  4.2. Evolution of the intantaneous temperature. 
+  
+  4.2. Evolution of the intantaneous temperature.
+   
   4.3. Evolution of the instantaneous pressure.
 
 
