@@ -6,7 +6,8 @@
 	IMPLICIT NONE
 	CONTAINS 
 	
-	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,rnew,vnew,Fnew)
+
+	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,rnew,vnew,Fnew,pot)
 ! This subroutine implements one step of the velocity Verlet algorithm.
 ! INPUT
 !	N  --> Number of particles.
@@ -81,27 +82,32 @@
 	write(14,*) Npart
 	write(14,*) ""
 	do j=1,Npart
-		write(14,*) "A", pos(j,:)
+  
+		write(14,*) "A", pos(:,j)
 	enddo
 	
-	call kinetic(Npart,nv,KE)
-	call insttemp(Npart,KE,T)
+	call kinetic(Npart,vel,KE)
+	call insttemp(Npart,KE,Tinst)
 	totalE = totalenergy(PE,KE)
-	call pressure(Npart,L,rho,pos,forc,T,pressio)
+	call pressure(Npart,L,rho,pos,forc,Tinst,pressio)
 	
 	write(15,2) time, KE, PE, totalE, Tinst, pressio !Write the values in "thermodynamics.dat"		
 	
 	
 	do i=1,Nsteps
 		time = dble(i)*dt
-		call Velocity_Verlet(Npart,dt,L,rcut,pos,vel,forc,np,nv,nf)
+
+		call Velocity_Verlet(Npart,dt,L,rcut,pos,vel,forc,np,nv,nf,PE)
+
 		if (thermostat .eqv. .true.) call Andersen(Npart,T,nv)
 		
 ! Write the new positions to in XYZ format (trajectories):		
 		write(14,*) Npart  ! Number of particles in simulation
 		write(14,*) "" ! Blank line
 		do j=1,Npart
-			write(14,1) "A", pos(j,:)
+
+			write(14,1) "A", pos(:,j)
+
 		enddo
 ! For the next iteration:
 		pos = np
@@ -110,7 +116,7 @@
 		
 ! Compute the statistics:
 		call kinetic(Npart,nv,KE)
-		call insttemp(Npart,KE,T)
+		call insttemp(Npart,KE,Tinst)
 		totalE = totalenergy(PE,KE)
 		call pressure(Npart,L,rho,pos,forc,T,pressio)
 
