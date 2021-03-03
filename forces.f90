@@ -38,7 +38,9 @@ module forces
                         modf = (48.d0/d14 - 24.d0/d8)
                         F(:,i) = F(:,i) + modf*dr(:)
                         F(:,j) = F(:,j) - modf*dr(:)
+
                         Upot = Upot+ 4.d0*(1.d0/d12 - 1.d0/d6) - &
+
                         4.d0*(1.d0/cf12 - 1.d0/cf6)
                   endif
             enddo

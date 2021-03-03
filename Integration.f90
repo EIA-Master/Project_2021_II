@@ -6,6 +6,7 @@
 	IMPLICIT NONE
 	CONTAINS 
 	
+
 	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,rnew,vnew,Fnew,pot)
 ! This subroutine implements one step of the velocity Verlet algorithm.
 ! INPUT
@@ -81,6 +82,7 @@
 	write(14,*) Npart
 	write(14,*) ""
 	do j=1,Npart
+  
 		write(14,*) "A", pos(:,j)
 	enddo
 	
@@ -94,14 +96,18 @@
 	
 	do i=1,Nsteps
 		time = dble(i)*dt
+
 		call Velocity_Verlet(Npart,dt,L,rcut,pos,vel,forc,np,nv,nf,PE)
+
 		if (thermostat .eqv. .true.) call Andersen(Npart,T,nv)
 		
 ! Write the new positions to in XYZ format (trajectories):		
 		write(14,*) Npart  ! Number of particles in simulation
 		write(14,*) "" ! Blank line
 		do j=1,Npart
+
 			write(14,1) "A", pos(:,j)
+
 		enddo
 ! For the next iteration:
 		pos = np

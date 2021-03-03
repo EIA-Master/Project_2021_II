@@ -1,23 +1,23 @@
+! Author: Jaume Garcia
+! Programa principal que crida les subrutines per inicialitzar el sistema
+! i realitza la simulació amb un bany tèrmic. 
 program main
 use Initialize
 use Integration
-
+use parameters 
 
 implicit none 
 INTEGER Nsteps, Natoms
 REAL*8 T, dt, rho, L, rcut
-LOGICAL true
+
+LOGICAL true ! Paràmetre lògic que afegeix el termostat
+
 REAL*8, allocatable :: pos0(:,:)
 REAL*8, allocatable :: vel0(:,:)
 REAL*8, allocatable :: pf(:,:)
 REAL*8, allocatable :: vf(:,:)
 REAL*8, allocatable :: ff(:,:)
 
-T=27.5229d0
-rho=0.8d0
-Natoms=64
-Nsteps=50000
-dt=1.d-4
 
 allocate(pos0(3,Natoms))
 allocate(vel0(3,Natoms))
@@ -25,10 +25,12 @@ allocate(pf(3,Natoms))
 allocate(vf(3,Natoms))
 allocate(ff(3,Natoms))
 
+! Inicilitzem el sistema calculant les posicions i les velocitats inicials
 call initial(Natoms,rho,T,pos0,vel0,L)
 
-rcut= L/2.d0
+rcut= L/2.d0 ! Cut-off
 
+! Integrem les equacions del moviment i escrivim els resultats en fitxers
 call Integrate(Nsteps,Natoms,T,dt,rho,rcut,L,true,pos0,vel0,pf,vf,ff)
 
 deallocate(pos0)
@@ -37,4 +39,5 @@ deallocate(pf)
 deallocate(vf)
 deallocate(ff)
 return
+
 end program main
