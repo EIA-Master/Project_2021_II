@@ -88,26 +88,23 @@ Makefile used to compile all the modules together along with the main program.
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
 
-:> make
+  :> make
 
-This will create and executable named
-
-programa.exe
+This will create and executable named programa.exe.
 
 3. To run the program execute programa.exe.
+  3.1. If you are using LINUX:
 
-If you are using LINUX:
+    :> ./programa.exe
 
-:> ./programa.exe
+  3.2. If you are using Windows:
 
-If you are using Windows:
+    :> .\programa.exe
 
-:> .\programa.exe
+   This will generate two files:
 
-This will generate two files:
-
-  3.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
-  3.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
+   3.2.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
+  3.2.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
 
 4. To visualize the plots you must type in your command line
 
