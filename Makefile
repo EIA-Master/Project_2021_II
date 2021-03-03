@@ -1,11 +1,14 @@
 # Start of the makefile
 # Defining variables
+
 objects = forces.o main.o Initialize.o Integration.o boundary.o statistics.o parameters.o
 f90comp = gfortran
+
 OPT= -O3
 # Makefile
 programa.exe: $(objects)
 	$(f90comp) -o programa.exe $(OPT) $(objects)
+
 boundary.o: boundary.f90
 	$(f90comp) -c $(OPT) boundary.f90
 parameters.o: parameters.f90
@@ -20,6 +23,7 @@ Integration.o: boundary.o forces.o statistics.o Integration.f90
 	$(f90comp) -c $(OPT) Integration.f90	
 main.o: Initialize.o Integration.o parameters.o main.f90
 	$(f90comp) -c $(OPT) main.f90
+  
 # Cleaning everything
 clean:
 	rm -f programa.exe

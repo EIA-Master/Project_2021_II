@@ -9,12 +9,15 @@ use parameters
 implicit none 
 INTEGER Nsteps, Natoms
 REAL*8 T, dt, rho, L, rcut
+
 LOGICAL true ! Paràmetre lògic que afegeix el termostat
+
 REAL*8, allocatable :: pos0(:,:)
 REAL*8, allocatable :: vel0(:,:)
 REAL*8, allocatable :: pf(:,:)
 REAL*8, allocatable :: vf(:,:)
 REAL*8, allocatable :: ff(:,:)
+
 
 allocate(pos0(3,Natoms))
 allocate(vel0(3,Natoms))
@@ -36,4 +39,5 @@ deallocate(pf)
 deallocate(vf)
 deallocate(ff)
 return
+
 end program main
