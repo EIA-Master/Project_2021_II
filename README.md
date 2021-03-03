@@ -93,6 +93,7 @@ Makefile used to compile all the modules together along with the main program.
 This will create and executable named programa.exe.
 
 3. To run the program execute programa.exe.
+
   3.1. If you are using LINUX:
 
     :> ./programa.exe
