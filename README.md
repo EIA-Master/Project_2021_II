@@ -1,7 +1,9 @@
 # Project_2021_II
 
+---
 
-## Group members:
+
+# Group members:
 
 -Ignasi Puch (admin: ignasipuch @ github)
 
