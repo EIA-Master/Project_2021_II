@@ -22,3 +22,8 @@
 - Statistics: Ignasi
 - Integration: Edgar
 - Visualitzation of results: Arnau
+
+---
+
+# How to use the repository?
+
