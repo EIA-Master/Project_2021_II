@@ -121,6 +121,10 @@ this will generate three plots:
    
   4.3. Evolution of the instantaneous pressure.
 
+# Files from the simulation
+
+In this repository we have also included thermodynamics.dat file with all the calculations performed.
+
 
 
 
