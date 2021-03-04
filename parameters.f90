@@ -12,5 +12,7 @@ double precision, parameter :: eps = 10.9d0     ! Epsilon of the gas (K)
 double precision, parameter :: mass = 4.0026d0  ! Mass (g/mol)
 integer, parameter :: Natoms = 125 ! Number of atoms of the system
 integer, parameter :: Nsteps = 50000 ! Number of steps of our simulation
+integer, parameter :: Nradial = 200 ! Number of radial distribution beads
+
 
 end module parameters
