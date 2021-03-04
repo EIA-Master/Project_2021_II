@@ -30,7 +30,7 @@
 
 This repository contains nine files consisting on:
 
-- Six modules
+- Seven modules
 - One main program
 - One file to visualize the results with gnuplot
 - One makefile to join all the parts
@@ -69,6 +69,11 @@ This module contains four subroutines:
 - Integrate: Main subroutine of the project which makes the integration and calculation of all the interesting variables.
 - Andersen: Subroutine used to implement the Andersen thermostat in the system.
 - Boxmuller: Soubroutine to extract a random number from a gaussian normal distribution.
+
+### radial_distribution.f90:
+This module contains two subroutines:
+- radial_dist: Calculates the radial distribution function
+- radial_dist_norm: Normalize radial distribution function
 
 ## Main
 
@@ -120,6 +125,10 @@ this will generate three plots:
   4.2. Evolution of the intantaneous temperature.
    
   4.3. Evolution of the instantaneous pressure.
+
+# Files from the simulation
+
+In this repository we have also included thermodynamics.dat file with all the calculations performed.
 
 
 
