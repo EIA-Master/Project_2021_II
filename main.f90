@@ -7,8 +7,7 @@ use Integration
 use parameters 
 
 implicit none 
-INTEGER Nsteps, Natoms
-REAL*8 T, dt, rho, L, rcut
+real*8 L,rcut
 
 LOGICAL true ! Paràmetre lògic que afegeix el termostat
 
