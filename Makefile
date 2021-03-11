@@ -8,7 +8,6 @@ OPT= -O3
 # Makefile
 programa.exe: $(objects)
 	$(f90comp) -o programa.exe $(OPT) $(objects)
-
 boundary.o: boundary.f90
 	$(f90comp) -c $(OPT) boundary.f90
 parameters.o: parameters.f90
@@ -26,8 +25,20 @@ radial_distribution.o: boundary.o radial_distribution.f90
 main.o: Initialize.o Integration.o parameters.o main.f90
 	$(f90comp) -c $(OPT) main.f90
   
-# Cleaning everything
+## clean: Remove *.o , *.mod and *.exe files
+.PHONY: clean
 clean:
 	rm -f programa.exe
 	rm -f $(objects)
+	rm -f *.mod
+
+## plots: Generate gnuplots
+.PHONY: plots
+plots:
+	gnuplot grafics.gnu
+	
+#Help
+.PHONY: help
+help:
+	@sed -n 's/^##//p' Makefile
 # End of the makefile
