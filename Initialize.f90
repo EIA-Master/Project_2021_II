@@ -57,6 +57,7 @@ DO KK=1,3
 ENDDO
 
 ! Rescaling (total kinetic energy acording to a MB distribution, ergo SUM(1/2*v²) = 3/2*N*T)
+AVER2=0.d0
 DO II=1,Natoms
 	DO KK=1,3
 		AVER2=AVER2+VEL(KK,II)**2.D0
