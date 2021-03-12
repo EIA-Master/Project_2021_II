@@ -50,6 +50,7 @@
 
 !------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
+<<<<<<< HEAD
 	SUBROUTINE Integrate(Nsteps,Npart,Nradial,T,dt,rho,rcut,L, &
      	sigma,thermostat,r0,v0,pf,vf,ff)
 	use statistics
@@ -58,11 +59,24 @@
 	IMPLICIT NONE
 	INTEGER, intent(in) :: Nsteps, Npart, Nradial
 	REAL*8, intent(in) :: T, dt, rho, L, rcut, sigma
+=======
+	SUBROUTINE Integrate(Nsteps,Npart,T,dt,rho,rcut,L,thermostat, &
+     	r0,v0,pf,vf,ff)
+	use statistics
+	use forces
+	IMPLICIT NONE
+	INTEGER, intent(in) :: Nsteps, Npart
+	REAL*8, intent(in) :: T, dt, rho, L, rcut
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 	LOGICAL, intent(in) :: thermostat
 	REAL*8, intent(in) :: r0(3,Npart), v0(3,Npart)
 	REAL*8, intent(out) :: pf(3,Npart), vf(3,Npart), ff(3,Npart)
 	REAL*8 pos(3,Npart), vel(3,Npart), forc(3,Npart)
+<<<<<<< HEAD
 	REAL*8 np(3,Npart), nv(3,Npart), nf(3,Npart),g(Nradial)
+=======
+	REAL*8 np(3,Npart), nv(3,Npart), nf(3,Npart)
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 	INTEGER i, j
 	REAL*8 time, KE, PE, totalE, Tinst, pressio
 	
@@ -120,11 +134,15 @@
 		call insttemp(Npart,KE,Tinst)
 		totalE = totalenergy(PE,KE)
 		call pressure(Npart,L,rho,pos,forc,T,pressio)
+<<<<<<< HEAD
             call radial_dist(Npart,Nradial,L,pos,g)
+=======
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 
 		write(15,2) time, KE, PE, totalE, Tinst, pressio !Write the values in "thermodynamics.dat"		
 		
 	enddo	
+<<<<<<< HEAD
 
 	call radial_dist_norm(Nradial,Npart,Nsteps,L,rho,g)
       write(15,*) " "
@@ -132,6 +150,9 @@
       do i = 1, Nradial
             write(15,*) sigma*(dble(i)-0.5)*L/(2.d0*dble(Nradial)),g(i)
 	enddo
+=======
+	
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 	close(14)
 	close(15)
 

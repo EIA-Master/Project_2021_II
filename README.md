@@ -24,6 +24,7 @@
 - Statistics: Ignasi
 - Integration: Edgar
 - Visualitzation of results: Arnau
+<<<<<<< HEAD
 
 ---
 
@@ -135,3 +136,5 @@ In this repository we have also included thermodynamics.dat file with all the ca
 
 
 >>>>>>> 8f94f0d17e3c1cc55fdcee4fcb3ab385ccfe5ba7
+=======
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c

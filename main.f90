@@ -7,7 +7,12 @@ use Integration
 use parameters 
 
 implicit none 
+<<<<<<< HEAD
 real*8 L,rcut
+=======
+INTEGER Nsteps, Natoms
+REAL*8 T, dt, rho, L, rcut
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 
 LOGICAL true ! Paràmetre lògic que afegeix el termostat
 
@@ -30,8 +35,12 @@ call initial(Natoms,rho,T,pos0,vel0,L)
 rcut= L/2.d0 ! Cut-off
 
 ! Integrem les equacions del moviment i escrivim els resultats en fitxers
+<<<<<<< HEAD
 call Integrate(Nsteps,Natoms,Nradial,T,dt,rho,rcut,L,sigma,true,pos0, &
 vel0,pf,vf,ff)
+=======
+call Integrate(Nsteps,Natoms,T,dt,rho,rcut,L,true,pos0,vel0,pf,vf,ff)
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 
 deallocate(pos0)
 deallocate(vel0)

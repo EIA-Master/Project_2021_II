@@ -35,11 +35,20 @@ end subroutine kinetic
 !                       INSTANT TEMPERATURE                          !
 ! ------------------------------------------------------------------ !
 
+<<<<<<< HEAD
 double precision function insttemp(Natoms,kine)
+=======
+subroutine insttemp(Natoms,kine,temp)
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 implicit none
 ! Input
 integer Natoms
 double precision kine
+<<<<<<< HEAD
+=======
+! Output
+double precision temp
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 ! Other variables
 integer Nf
 ! ------------------------------------------------------------------ !
@@ -47,7 +56,11 @@ integer Nf
 Nf = 3*Natoms - 3
 temp = 2.d0*kine/dble(Nf)
 
+<<<<<<< HEAD
 end function insttemp
+=======
+end subroutine insttemp
+>>>>>>> f7f33d3c2708777b005facdce400c724a0909c0c
 
 ! ------------------------------------------------------------------ !
 !                           TOTAL ENERGY                             !
