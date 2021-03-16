@@ -23,8 +23,7 @@
 - Forces: Alba
 - Statistics: Ignasi
 - Integration: Edgar
-- Visualitzation of results: Arnau
-<<<<<<< HEAD
+- Visualitzation of results: Ignasi
 
 ---
 
