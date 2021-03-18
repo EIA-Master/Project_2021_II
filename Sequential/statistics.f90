@@ -15,6 +15,10 @@ double precision vel(3,Natoms)
 double precision kin
 ! Other variables
 integer II,JJ,KK
+! ****************************************************************** !
+! This subroutine takes as an input the number of atoms and their 
+! velocities and calculates the global kinetic energy.
+! ****************************************************************** !
 ! ------------------------------------------------------------------ !
 
 kin = 0.d0
@@ -42,6 +46,10 @@ integer Natoms
 double precision kine
 ! Other variables
 integer Nf
+! ****************************************************************** !
+! This subroutine takes as an input the number of atoms and the 
+! kinetic energy of the system and computes the instant temperature.
+! ****************************************************************** !
 ! ------------------------------------------------------------------ !
 
 Nf = 3*Natoms - 3
@@ -57,6 +65,10 @@ double precision function totalenergy(potene,kinene)
 implicit none
 ! Input
 double precision potene,kinene
+! ****************************************************************** !
+! This subroutine takes as an input the kinetic and the potential
+! energy and computes the total energy.
+! ****************************************************************** !
 ! ------------------------------------------------------------------ !
 
 totalenergy = potene + kinene
@@ -77,6 +89,11 @@ double precision L,rho,posis(3,Natoms),force(3,Natoms),temp
 double precision pres
 ! Other variables
 integer i,j
+! ****************************************************************** !
+! This subroutine takes as an input the knumber of atoms, the den-
+! sity, the positions of the particles, the force applied to them,
+! and the temperature to calculate the instantaneous pressure.
+! ****************************************************************** !
 ! ------------------------------------------------------------------ !
 
 pres = 0.d0
