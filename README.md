@@ -20,10 +20,10 @@
 
 - Initial state: Arnau
 - Boundy conditions: Jaume
-- Forces: Alba
+- Forces/Radial distribution: Alba
 - Statistics: Ignasi
 - Integration: Edgar
-- Visualitzation of results: Arnau
+- Visualitzation: Jaume
 
 ---
 
