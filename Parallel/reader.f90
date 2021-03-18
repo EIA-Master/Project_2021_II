@@ -1,0 +1,39 @@
+module reader 
+contains 
+
+
+! ------------------------------------------------------------------ !
+!                             FILE READER                            !
+! ------------------------------------------------------------------ !
+
+subroutine read(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
+implicit none 
+! Other variables
+character:: dummie_variable
+! Output
+double precision:: temp,density,timestep,sigma,epsilon,mass
+integer:: Natoms,Nsteps,Nradial
+
+! ****************************************************************** !
+
+inputfile = 'data.txt'
+
+open(unit = 50, file = inputfile)
+
+read(50,*) dummie_variable,temp
+read(50,*) dummie_variable,density
+read(50,*) dummie_variable,timestep
+read(50,*) dummie_variable,sigma
+read(50,*) dummie_variable,epsilon
+read(50,*) dummie_variable,mass
+read(50,*) dummie_variable,Natoms
+read(50,*) dummie_variable,Nsteps
+read(50,*) dummie_variable,Nradial
+
+close(50)
+
+end subroutine read
+
+
+
+end module reader
