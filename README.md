@@ -117,7 +117,7 @@ This will create and executable named programa.exe.
 
 4. To visualize the plots you must type in your command line
 
-        :> gnuplot grafics.gnu
+        :> make plots
 
 this will generate three plots:
 
