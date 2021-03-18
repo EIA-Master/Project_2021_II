@@ -120,13 +120,14 @@
 
 		if (thermostat .eqv. .true.) call Andersen(Npart,T,nv) ! If indicated, couple the system to an Andersen thermostat. Otherwise temperature can evolve with time.
 		
-		! Write the new positions to in XYZ format (trajectories):		
-		write(14,*) Npart  
-		write(14,*) "" 
-		do j=1,Npart
-			write(14,1) "A", pos(:,j)
-		enddo
-		
+		! Write the new positions to in XYZ format (trajectories):	
+		if (mod(i,1000) .eq. 0) then	
+			write(14,*) Npart  
+			write(14,*) "" 
+			do j=1,Npart
+				write(14,1) "A", pos(:,j)
+			enddo
+		endif
 		! For the next iteration, update positions, velocities and forces:
 		pos = np
 		vel = nv
