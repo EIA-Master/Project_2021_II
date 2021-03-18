@@ -102,6 +102,11 @@ Makefile used to:
 4. Get help.
 
        :> make help
+       
+       
+## data.txt
+
+This file contains all the information that the program needs to simulate the system. It is very important not to change the format of it and to put the numbers matching Fortran 90's syntax (i.e. 2.d0).
 
 ---
 

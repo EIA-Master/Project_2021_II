@@ -1,7 +1,6 @@
 module reader 
 contains 
 
-
 ! ------------------------------------------------------------------ !
 !                             FILE READER                            !
 ! ------------------------------------------------------------------ !
@@ -13,7 +12,10 @@ character:: dummie_variable
 ! Output
 double precision:: temp,density,timestep,sigma,epsilon,mass
 integer:: Natoms,Nsteps,Nradial
-
+! ****************************************************************** !
+! This subroutine reads all the data in the data.txt file necessary
+! in order to perform the simulation with the experimental values
+! wanted.
 ! ****************************************************************** !
 
 inputfile = 'data.txt'
