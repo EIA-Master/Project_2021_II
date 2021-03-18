@@ -45,7 +45,7 @@ integer Nf
 ! ------------------------------------------------------------------ !
 
 Nf = 3*Natoms - 3
-temp = 2.d0*kine/dble(Nf)
+insttemp = 2.d0*kine/dble(Nf)
 
 end function insttemp
 
