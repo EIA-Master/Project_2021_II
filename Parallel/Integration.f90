@@ -48,13 +48,21 @@
 
 !------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
+<<<<<<< HEAD:Parallel/Integration.f90
 	SUBROUTINE Integrate(Nsteps,Npart,Nradial,T,dt,rho,rcut,L, &
      	sigma,thermostat,r0,v0,pf,vf,ff)
+=======
+	SUBROUTINE Integrate(Nsteps,Npart,T,dt,rho,rcut,L,thermostat, &
+     	r0,v0,pf,vf,ff)
+>>>>>>> 0a50f85acc02919afb3f0fc9df0bf13bcc201032:Integration.f90
 	! This subroutine implements the integration of the equations of motion for all the particles of the system.
   	! INPUT:
   	!	Nsteps --> Total number of steps in which the integration is implemented.
   	!	Npart --> Number of particles of the system.
+<<<<<<< HEAD:Parallel/Integration.f90
   	!	Nradial --> Number of points for the radial distribution function.
+=======
+>>>>>>> 0a50f85acc02919afb3f0fc9df0bf13bcc201032:Integration.f90
   	!	T --> Temperature.
   	!	dt --> Time-step.
   	!	rho --> Density of particles.
