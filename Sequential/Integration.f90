@@ -90,6 +90,7 @@
 	
 	open(14,file="Positions.xyz")
 	open(15,file="Thermodynamics.dat")
+	open(16,file="gdr.dat")
 	
 	! Set initial state:
 	time = 0d0	
@@ -99,8 +100,7 @@
 
 	write(14,*) Npart
 	write(14,*) ""
-	do j=1,Npart
-  
+	do j=1,Npart  
 		write(14,*) "A", pos(:,j)
 	enddo
 
@@ -139,20 +139,20 @@
 		call pressure(Npart,L,rho,pos,forc,T,pressio)
 		call radial_dist(Npart,Nradial,L,pos,g)
 
-		write(15,2) time, KE, PE, totalE, Tinst, pressio 		
+		if (mod(i,500).eq.0) write(15,2) time, KE, PE, totalE, Tinst, pressio 		
 		
 	enddo	
 	
 	call radial_dist_norm(Nradial,Npart,Nsteps,L,rho,g)
-	write(15,*) ""
-	write(15,*) ""
+	
 	
 	do i=1,Nradial
-		write(15,*) sigma*(dble(i)-.5d0)*L/(2d0*dble(Nradial)),g(i)
+		write(16,*) sigma*(dble(i)-.5d0)*L/(2d0*dble(Nradial)),g(i)
 	enddo
 	
 	close(14)
 	close(15)
+	close(16)
 
 	! Set final arrays (outputs).	
 	pf = pos
