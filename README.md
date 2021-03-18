@@ -131,7 +131,3 @@ this will generate three plots:
 
 In this repository we have also included thermodynamics.dat file with all the calculations performed.
 
-
-
-
->>>>>>> 8f94f0d17e3c1cc55fdcee4fcb3ab385ccfe5ba7
