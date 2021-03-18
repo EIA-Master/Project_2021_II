@@ -35,7 +35,7 @@ end subroutine kinetic
 !                       INSTANT TEMPERATURE                          !
 ! ------------------------------------------------------------------ !
 
-double precision function insttemp(Natoms,kine)
+subroutine function insttemp(Natoms,kine,temp)
 implicit none
 ! Input
 integer Natoms
