@@ -86,7 +86,22 @@ This part only contains one file that plots the evolution of the magnitudes thro
 
 ## Makefile
 
-Makefile used to compile all the modules together along with the main program.
+Makefile used to:
+1. Compile all the modules together along with the main program.
+
+       :> make 
+
+2. Plot all the figures.
+
+       :> make plot
+
+3. Clean the .0 and .mod files.
+
+       :> make clean
+       
+4. Get help.
+
+       :> make help
 
 ---
 
