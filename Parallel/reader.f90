@@ -1,19 +1,24 @@
+! Author: Ignasi Puch
 module reader 
 contains 
-
 
 ! ------------------------------------------------------------------ !
 !                             FILE READER                            !
 ! ------------------------------------------------------------------ !
 
-subroutine read(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
-implicit none 
+subroutine read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
+implicit none
+! Input:ç
+character*8 inputfile 
 ! Other variables
 character:: dummie_variable
 ! Output
 double precision:: temp,density,timestep,sigma,epsilon,mass
 integer:: Natoms,Nsteps,Nradial
-
+! ****************************************************************** !
+! This subroutine reads all the data in the data.txt file necessary
+! in order to perform the simulation with the experimental values
+! wanted.
 ! ****************************************************************** !
 
 inputfile = 'data.txt'
@@ -32,7 +37,7 @@ read(50,*) dummie_variable,Nradial
 
 close(50)
 
-end subroutine read
+end subroutine read_files
 
 
 
