@@ -3,13 +3,17 @@ IMPLICIT NONE
 CONTAINS
 
 
-SUBROUTINE INITIAL(Natoms,RO,TEMP,POSI,VEL,L)
-! Given a total number of particles Natoms, a densiry RO and a temperature TEMP, this subroutine returns the initial position POSI(3,Natoms) of those particles in a 3D sc lattice and it's initial velocities VEL(3,Natoms). The velocities are set in a MB distribution
+SUBROUTINE INITIAL(Natoms,RO,TEMP,taskid,POSI,VEL,L)
+! Given a total number of particles Natoms, a density RO and a temperature TEMP, this subroutine returns the initial position POSI(3,Natoms) of those particles in a 3D sc lattice and it's initial velocities VEL(3,Natoms). The velocities are set in a MB distribution
 IMPLICIT NONE
 DOUBLE PRECISION RO,TEMP,POSI(3,Natoms),VEL(3,Natoms),A,L
 DOUBLE PRECISION AVER(3),AVER2,X1,X2,PHI,PI
 INTEGER Natoms,N3,II,JJ,KK,ATOM,SEED
+! Parallel variables 
+integer taskid
 
+! El càlcul només el fa el primer processador.
+if (taskid==0) then
 
 N3=Natoms**(1./3.)+1
 
@@ -69,6 +73,8 @@ DO II=1,Natoms
 	ENDDO
 ENDDO
 VEL=VEL*DSQRT(3.D0*Natoms*TEMP/AVER2)
+
+endif 
 
 RETURN
 END SUBROUTINE INITIAL

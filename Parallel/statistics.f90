@@ -80,7 +80,7 @@ end function totalenergy
 !                              PRESSURE                              !
 ! ------------------------------------------------------------------ !
 
-subroutine pressure(Natoms,L,rho,posis,force,temp,pres)
+subroutine pressure(Natoms,L,rho,posis,force,temp,numproc,index_particles,taskid,pres)
 implicit none
 ! Input
 integer Natoms
@@ -89,6 +89,8 @@ double precision L,rho,posis(3,Natoms),force(3,Natoms),temp
 double precision pres
 ! Other variables
 integer i,j
+! Parallel variables
+integer :: index_particles(numproc,2)
 ! ****************************************************************** !
 ! This subroutine takes as an input the knumber of atoms, the den-
 ! sity, the positions of the particles, the force applied to them,
@@ -98,7 +100,7 @@ integer i,j
 
 pres = 0.d0
 
-do i = 1, Natoms
+do i = index_particles(taskid+1,1), index_particles(taskid+1,2)
     do j = 1, 3
 
         pres = pres + posis(j,i)*force(j,i)
@@ -107,7 +109,9 @@ do i = 1, Natoms
 enddo
 
 pres = rho*temp + pres/(3.d0*(L**3)*Natoms)
-
+! Sumem totes les contribucions de la pressió de tots els processadors 
+call MPI_REDUCE(pres,pres,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+return
 end subroutine pressure
 
 end module statistics
