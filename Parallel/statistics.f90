@@ -6,11 +6,14 @@ contains
 ! ------------------------------------------------------------------ !
 !                           KINETIC ENERGY                           !
 ! ------------------------------------------------------------------ !
-subroutine kinetic(Natoms,vel,kin)
+subroutine kinetic(Natoms,vel,numproc,index_particles,taskid,kin)
 implicit none
 ! Input
-integer Natoms
-double precision vel(3,Natoms)
+integer:: Natoms
+double precision:: vel(3,Natoms)
+! - Parallel
+integer:: numproc,taskid
+integer:: index_part(numproc,2)
 ! Output
 double precision kin
 ! Other variables
@@ -22,7 +25,7 @@ integer II,JJ,KK
 ! ------------------------------------------------------------------ !
 
 kin = 0.d0
-do II = 1,Natoms
+do II = index_part(taskid+1,1),index_part(taskid+1,2)
     do JJ = 1,3
 
         kin = kin + vel(JJ,II)**2.d0
@@ -31,6 +34,8 @@ do II = 1,Natoms
 enddo
 kin = kin*0.5d0
 
+! Adding contributions.
+call MPI_REDUCE(kin,kin,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
 
 return
 end subroutine kinetic

@@ -14,7 +14,7 @@ module forces
 
       subroutine force_LJ(Natoms,L,cutoff,r,numproc,index_particles,taskid,F,Upot)
       implicit none
-      double precision r(3,Natoms),F(3,Natoms),L
+      double precision, dimension(:,:):: r,F,L
       double precision dr(3),cutoff, cf6,cf12,Upot
       double precision d2,d4,d6,d8,d12,d14,modf     
       integer i,j,k,Natoms

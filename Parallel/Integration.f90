@@ -17,7 +17,7 @@
 	!	L  --> Length of the lattice.
 	!	r  --> Position of the particles.
 	!	v  --> Velocity of the particles.
-	!	F --> Forces of the particles (previus step)
+	!	F --> Forces of the particles (previous step)
 
 	! - Parallelization variables:
 	! 	index_part --> vector with beginning and ending particle to simulate
@@ -49,27 +49,22 @@
 	! Other variables:
 	INTEGER i,j,k
 	! Output:
-	REAL*8, intent(inout) :: r(3,N), rnew(3,N)
-	REAL*8, intent(inout) :: v(3,N), vnew(3,N)
-	REAL*8, intent(inout) :: F(3,N), Fnew(3,N)
+	REAL*8, dimension(:,:) :: r,rnew,v,vnew,F,Fnew
 	REAL*8 pot
 	! ************************************************************************************************ !
 
-	! Correlating vector notation and taskid notation.
-	taskid = taskid + 1
-
 	! Calculating new coordinates.
-	rnew(:,index_part(taskid,1):index_part(taskid,2)) = & 
-	r(:,index_part(taskid,1):index_part(taskid,2)) + &
-	v(:,index_part(taskid,1):index_part(taskid,2))*dt + &
-	.5d0*F(:,index_part(taskid,1):index_part(taskid,2))*dt*dt 
+	rnew(:,index_part(taskid+1,1):index_part(taskid+1,2)) = & 
+	r(:,index_part(taskid+1,1):index_part(taskid+1,2)) + &
+	v(:,index_part(taskid+1,1):index_part(taskid+1,2))*dt + &
+	.5d0*F(:,index_part(taskid+1,1):index_part(taskid+1,2))*dt*dt 
 
 	! Sharing the information all processors have calculated.
 	do k=1,3
     	
-		call MPI_ALLGATHERV(rnew(k,index_part(taskid,1):index_part(taskid,2)),&
+		call MPI_ALLGATHERV(rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)),&
 		numsend,MPI_DOUBLE_PRECISION, &
-		rnew(k,index_part(taskid,1):index_part(taskid,2)), &
+		rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)), &
 		numsend,allgather,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror)
 
     enddo
@@ -84,9 +79,9 @@
 	call force_LJ(N,L,rcut,rnew,numproc,index_part,taskid,Fnew,pot) ! New forces.	
 
 	! New velocities.
-	vnew(index_part(:,taskid,1):index_part(taskid,2)) = &
-	v(index_part(:,taskid,1):index_part(taskid,2)) +&
-	(F(index_part(:,taskid,1):index_part(taskid,2))+Fnew(index_part(:,taskid,1):index_part(taskid,2)))*.5d0*dt 
+	vnew(index_part(:,taskid+1,1):index_part(taskid+1,2)) = &
+	v(index_part(:,taskid+1,1):index_part(taskid+1,2)) +&
+	(F(index_part(:,taskid+1,1):index_part(taskid+1,2))+Fnew(index_part(:,taskid+1,1):index_part(taskid+1,2)))*.5d0*dt 
 
 	return	
 	END SUBROUTINE
@@ -137,10 +132,8 @@
 	INTEGER, intent(in) :: Nsteps, Npart, Nradial
 	REAL*8, intent(in) :: T, dt, rho, L, rcut, sigma
 	LOGICAL, intent(in) :: thermostat
-	REAL*8, intent(in) :: r0(3,Npart), v0(3,Npart)
-	REAL*8, intent(out) :: pf(3,Npart), vf(3,Npart), ff(3,Npart)
-	REAL*8 pos(3,Npart), vel(3,Npart), forc(3,Npart)
-	REAL*8 np(3,Npart), nv(3,Npart), nf(3,Npart)
+	REAL*8, dimension(:,:) :: r0, v0
+	REAL*8, dimension(:,:) :: pf,vf,ff,pos,vel,forc,np,nv,nf
 	INTEGER i,j,k
 	REAL*8 time, KE, PE, totalE, Tinst, pressio, g(Nradial)
 	! - Parallel
@@ -171,13 +164,14 @@
     enddo
 
 	! Calculating forces
-	call force_LJ(Npart,L,rcut,pos,numproc,index_part,taskid+1,forc,PE) 	
+	call force_LJ(Npart,L,rcut,pos,numproc,index_part,taskid,forc,PE) 	
 
 	! Calculating pressure
-	call pressure(Npart,L,rho,pos,forc,Tinst,numproc,index_particles,taskid+1,pressio)
+	call pressure(Npart,L,rho,pos,forc,Tinst,numproc,index_particles,taskid,pressio)
+	call kinetic(Npart,vel,numproc,index_particles,taskid,KE)
 
 	! Master processor tasks
-	if (taskid+1 == 0) then
+	if (taskid == 0) then
 
 		! Write initial configuration.
 		write(14,*) Npart
@@ -186,14 +180,7 @@
 			write(14,*) "A", pos(:,j)
 		enddo
 
-		! Compute the initial thermodynamic quantities of the system:	
-
-		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		! Ens ho hem de mirar !
-		call kinetic(Npart,vel,KE)
-		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
+		! Compute the Temperature and total energy
 		call insttemp(Npart,KE,Tinst)
 		totalE = totalenergy(PE,KE)	
 
@@ -212,7 +199,7 @@
 		if (thermostat .eqv. .true.) call Andersen(T,index_particles,numproc,taskid,nv) 
 
 		! Pressure
-		call pressure(Npart,L,rho,np,nf,T,pressio)
+		call pressure(Npart,L,rho,np,nf,T,numproc,index_particles,taskid+1,pressio)
 		
 		if (taskid == 0) then
 
@@ -281,7 +268,8 @@
 	!	v --> Velocities.
       IMPLICIT NONE
       INTEGER N, i, k
-      REAL*8 T, sigma, NU, v(3,N), v1, v2
+      REAL*8 T,sigma,NU,v1,
+	  REAL*8, dimension(:,:):: v
       PARAMETER(nu = 0.1d0)
 	  INTEGER, intent(in) :: numproc,taskid
 	  INTEGER, intent(in) :: index_part(numproc,2)
