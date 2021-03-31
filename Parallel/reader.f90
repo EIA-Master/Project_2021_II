@@ -14,7 +14,7 @@ character*8 inputfile
 character:: dummie_variable
 ! Output
 double precision:: temp,density,timestep,sigma,epsilon,mass
-integer:: Natoms,Nsteps,Nradial
+integer:: numproc,Natoms,Nsteps,Nradial
 ! ****************************************************************** !
 ! This subroutine reads all the data in the data.txt file necessary
 ! in order to perform the simulation with the experimental values
@@ -25,6 +25,7 @@ inputfile = 'data.txt'
 
 open(unit = 50, file = inputfile)
 
+read(50,*) dummie_variable,numproc
 read(50,*) dummie_variable,temp
 read(50,*) dummie_variable,density
 read(50,*) dummie_variable,timestep
