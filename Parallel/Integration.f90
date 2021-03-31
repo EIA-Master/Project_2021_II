@@ -166,7 +166,7 @@
 	! Calculating forces
 	call force_LJ(Npart,L,rcut,pos,numproc,index_part,taskid,forc,PE) 	
 
-	! Calculating pressure
+	! Calculating pressure and kinetic energy
 	call pressure(Npart,L,rho,pos,forc,Tinst,numproc,index_particles,taskid,pressio)
 	call kinetic(Npart,vel,numproc,index_particles,taskid,KE)
 
@@ -198,8 +198,9 @@
 		! If indicated, couple the system to an Andersen thermostat. Otherwise temperature can evolve with time.										  
 		if (thermostat .eqv. .true.) call Andersen(T,index_particles,numproc,taskid,nv) 
 
-		! Pressure
+		! Pressure and kinetic energy per step.
 		call pressure(Npart,L,rho,np,nf,T,numproc,index_particles,taskid+1,pressio)
+		call kinetic(Npart,nv,numproc,index_particles,taskid,KE)
 		
 		if (taskid == 0) then
 
@@ -212,20 +213,19 @@
 				enddo
 			endif
 
-			! For the next iteration, update positions, velocities and forces:
-			pos = np
-			vel = nv
-			forc = nf
-
 			! Compute the statistics:
-			call kinetic(Npart,nv,KE)
 			call insttemp(Npart,KE,Tinst)
 			totalE = totalenergy(PE,KE)
-			call radial_dist(Npart,Nradial,L,pos,g)
+			call radial_dist(Npart,Nradial,L,np,g)
 
 			if (mod(i,500).eq.0) write(15,2) time, KE, PE, totalE, Tinst, pressio 
 
 		endif		
+
+		! For the next iteration, update positions, velocities and forces:
+		pos = np
+		vel = nv
+		forc = nf
 		
 	enddo	
 	
@@ -243,11 +243,6 @@
 	close(14)
 	close(15)
 	close(16)
-
-	! Set final arrays (outputs).	
-	! pf = pos
-	! vf = vel
-	! ff = forc
 
 	return
 	END SUBROUTINE Integrate

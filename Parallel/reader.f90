@@ -8,7 +8,12 @@ contains
 
 subroutine read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
 implicit none
-! Input:ç
+! Parallelization
+include 'mpif.h'
+! MPI variables: 
+integer:: taskid,comm,ierror,reslen,message,partner,request
+integer:: stat(MPI_STATUS_SIZE)
+! Input:
 character*8 inputfile 
 ! Other variables
 character:: dummie_variable
@@ -39,7 +44,5 @@ read(50,*) dummie_variable,Nradial
 close(50)
 
 end subroutine read_files
-
-
 
 end module reader
