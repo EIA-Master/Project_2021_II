@@ -1,3 +1,4 @@
+! Author: Ignasi Puch
 module reader 
 contains 
 
@@ -5,8 +6,10 @@ contains
 !                             FILE READER                            !
 ! ------------------------------------------------------------------ !
 
-subroutine read(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
-implicit none 
+subroutine read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
+implicit none
+! Input:ç
+character*8 inputfile 
 ! Other variables
 character:: dummie_variable
 ! Output
@@ -34,7 +37,7 @@ read(50,*) dummie_variable,Nradial
 
 close(50)
 
-end subroutine read
+end subroutine read_files
 
 
 
