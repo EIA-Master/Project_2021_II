@@ -128,18 +128,18 @@ call MPI_ALLREDUCE(aver2,a2,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror
 aver2=a2
 
 ! Re-scaling
-if (rank.eq.0) then
-    do ii=1,Npart
-        do kk=1,3
-            vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
-        enddo
+do ii=1,Npart
+    do kk=1,3
+        vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
     enddo
+enddo
 
-    vel=vel*dsqrt(3.d0*Npart*temp/aver2)
+vel=vel*dsqrt(3.d0*Npart*temp/aver2)
 
-endif
+
 
 
 call MPI_FINALIZE(ierror)
 return
 end subroutine initial
+end module initialize
