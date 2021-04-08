@@ -1,3 +1,4 @@
+
 # Project_2021_II
 ---
 
@@ -19,10 +20,10 @@
 
 - Initial state: Arnau
 - Boundy conditions: Jaume
-- Forces: Alba
+- Forces/Radial distribution: Alba
 - Statistics: Ignasi
 - Integration: Edgar
-- Visualitzation of results: Arnau
+- Visualitzation: Jaume
 
 ---
 
@@ -85,7 +86,27 @@ This part only contains one file that plots the evolution of the magnitudes thro
 
 ## Makefile
 
-Makefile used to compile all the modules together along with the main program.
+Makefile used to:
+1. Compile all the modules together along with the main program.
+
+       :> make 
+
+2. Plot all the figures.
+
+       :> make plot
+
+3. Clean the .0 and .mod files.
+
+       :> make clean
+       
+4. Get help.
+
+       :> make help
+       
+       
+## data.txt
+
+This file contains all the information that the program needs to simulate the system. It is very important not to change the format of it and to put the numbers matching Fortran 90's syntax (i.e. 2.d0).
 
 ---
 
@@ -116,7 +137,7 @@ This will create and executable named programa.exe.
 
 4. To visualize the plots you must type in your command line
 
-        :> gnuplot grafics.gnu
+        :> make plots
 
 this will generate three plots:
 
@@ -129,7 +150,4 @@ this will generate three plots:
 # Files from the simulation
 
 In this repository we have also included thermodynamics.dat file with all the calculations performed.
-
-
-
 
