@@ -12,19 +12,14 @@ double precision p,v,a1,a2
 integer Npart,ii,jj,kk,ll,atom,irank
 integer comm,rank,Nproc,Nppp,ierror,icomm
 
-! Initialize the paralel programing
 include 'mpif.h'
-
-
-call MPI_INIT(ierror)
-call MPI_COMM_RANK(MPI_COMM_WORLD,rank,ierror)
-call MPI_COMM_SIZE(MPI_COMM_WORLD,Nproc,ierror)
-
 
 ! Each processor will compute the position and velocities of a certain number of
 ! particles, Nppp (Number of Particles Per Processor)
-Nppp=Npart/Nproc
+call MPI_COMM_RANK(MPI_COMM_WORLD,rank,ierror)
+call MPI_COMM_SIZE(MPI_COMM_WORLD,Nproc,ierror)
 
+Nppp=Npart/Nproc
 
 L=(Npart/ro)**(1./3.)
 pi=4.d0*datan(1.d0)
@@ -128,18 +123,23 @@ call MPI_ALLREDUCE(aver2,a2,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror
 aver2=a2
 
 ! Re-scaling
-do ii=1,Npart
-    do kk=1,3
-        vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
+if (rank.eq.0) then
+    do ii=1,Npart
+        do kk=1,3
+            vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
+        enddo
     enddo
-enddo
 
-vel=vel*dsqrt(3.d0*Npart*temp/aver2)
+    vel=vel*dsqrt(3.d0*Npart*temp/aver2)
+
+endif
 
 
+call MPI_BARRIER(MPI_COMM_WORLD,ierror)
 
-
-call MPI_FINALIZE(ierror)
 return
 end subroutine initial
+
+
+
 end module initialize
