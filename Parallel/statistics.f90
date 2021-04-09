@@ -12,10 +12,11 @@ implicit none
 integer:: Natoms
 double precision:: vel(3,Natoms)
 ! - Parallel
-integer:: numproc,taskid
-integer:: index_part(numproc,2)
+integer :: numproc,taskid
+integer :: index_particles(numproc,2)
+integer :: ierror
 ! Output
-double precision kin
+double precision kin,kr
 ! Other variables
 integer II,JJ,KK
 ! ****************************************************************** !
@@ -23,9 +24,10 @@ integer II,JJ,KK
 ! velocities and calculates the global kinetic energy.
 ! ****************************************************************** !
 ! ------------------------------------------------------------------ !
+include 'mpif.h'
 
 kin = 0.d0
-do II = index_part(taskid+1,1),index_part(taskid+1,2)
+do II = index_particles(taskid+1,1),index_particles(taskid+1,2)
     do JJ = 1,3
 
         kin = kin + vel(JJ,II)**2.d0
@@ -35,7 +37,8 @@ enddo
 kin = kin*0.5d0
 
 ! Adding contributions.
-call MPI_REDUCE(kin,kin,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+call MPI_REDUCE(kin,kr,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+kin=kr
 
 return
 end subroutine kinetic
@@ -44,11 +47,11 @@ end subroutine kinetic
 !                       INSTANT TEMPERATURE                          !
 ! ------------------------------------------------------------------ !
 
-subroutine function insttemp(Natoms,kine,temp)
+subroutine insttemp(Natoms,kine,temp)
 implicit none
 ! Input
 integer Natoms
-double precision kine
+double precision kine,temp
 ! Other variables
 integer Nf
 ! ****************************************************************** !
@@ -60,7 +63,7 @@ integer Nf
 Nf = 3*Natoms - 3
 temp = 2.d0*kine/dble(Nf)
 
-end function insttemp
+end subroutine insttemp
 
 ! ------------------------------------------------------------------ !
 !                           TOTAL ENERGY                             !
@@ -91,17 +94,20 @@ implicit none
 integer Natoms
 double precision L,rho,posis(3,Natoms),force(3,Natoms),temp
 ! Output
-double precision pres
+double precision pres,pret
 ! Other variables
 integer i,j
 ! Parallel variables
+integer :: numproc,taskid
 integer :: index_particles(numproc,2)
+integer :: ierror
 ! ****************************************************************** !
 ! This subroutine takes as an input the knumber of atoms, the den-
 ! sity, the positions of the particles, the force applied to them,
 ! and the temperature to calculate the instantaneous pressure.
 ! ****************************************************************** !
 ! ------------------------------------------------------------------ !
+include 'mpif.h'
 
 pres = 0.d0
 
@@ -115,7 +121,8 @@ enddo
 
 pres = rho*temp + pres/(3.d0*(L**3)*Natoms)
 ! Sumem totes les contribucions de la pressió de tots els processadors 
-call MPI_REDUCE(pres,pres,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+call MPI_REDUCE(pres,pret,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+pres=pret
 return
 end subroutine pressure
 

@@ -29,13 +29,15 @@ aver2=0.d0
 call RANDOM_SEED()
 ii=-1
 jj=0
+posi=0.d0
+vel=0.d0
 ! Each processor wil start from a different particle and will compute the
 ! position and velocity of Nppp particles
 atom=Nppp*rank
 do ll=1,Nppp
     atom=atom+1
     ii=ii+1
-    if (ii.gt.(dsqrt(dble(Nppp)))) then
+    if (ii*L/dsqrt(dble(Nppp+1)).gt.L) then
         ii=0
         jj=jj+1
     endif
@@ -44,6 +46,7 @@ do ll=1,Nppp
     posi(2,atom)=L*jj/dsqrt(dble(Nppp+1))-L/2.d0
     posi(3,atom)=L*dble(rank)/dble(Nproc+1)-L/2.d0
 
+    
     ! The velocities are initialized in a MB distribution
     do kk=1,3
         call RANDOM_NUMBER(x1)
@@ -71,7 +74,7 @@ if (rank.eq.0)then
         atom=atom+1
 
         ii=ii+1
-        if (ii.gt.(dsqrt(dble(Nppp))))then
+        if (ii.gt.(dsqrt(dble(Nppp))+1))then
             ii=0
             jj=jj+1
         endif
@@ -123,16 +126,13 @@ call MPI_ALLREDUCE(aver2,a2,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror
 aver2=a2
 
 ! Re-scaling
-if (rank.eq.0) then
-    do ii=1,Npart
-        do kk=1,3
-            vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
-        enddo
+do ii=1,Npart
+    do kk=1,3
+        vel(kk,ii)=vel(kk,ii)-aver(kk)/Npart
     enddo
+enddo
 
-    vel=vel*dsqrt(3.d0*Npart*temp/aver2)
-
-endif
+vel=vel*dsqrt(3.d0*Npart*temp/aver2)
 
 
 call MPI_BARRIER(MPI_COMM_WORLD,ierror)
