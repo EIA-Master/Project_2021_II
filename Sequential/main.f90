@@ -18,7 +18,11 @@ REAL*8, allocatable :: pf(:,:)
 REAL*8, allocatable :: vf(:,:)
 REAL*8, allocatable :: ff(:,:)
 REAL*8 temp,density,timestep,sigma,epsilon,mass
+REAL*4 ini_time,fin_time
 integer Natoms,Nsteps,Nradial
+
+! Calling initial time
+call cpu_time(ini_time)
 
 ! Lectura del fitxer amb les dades necessàries per la simulació
 call read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
@@ -38,6 +42,11 @@ rcut= L/2.d0 ! Cut-off
 ! Integrem les equacions del moviment i escrivim els resultats en fitxers
 call Integrate(Nsteps,Natoms,Nradial,temp,timestep,density,rcut,L,sigma,true,pos0, &
 vel0,pf,vf,ff)
+
+! Calling final time
+call cpu_time(fin_time)
+
+print*, 'Total time of computation:',fin_time-ini_time
 
 deallocate(pos0)
 deallocate(vel0)

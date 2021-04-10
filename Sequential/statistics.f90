@@ -39,11 +39,11 @@ end subroutine kinetic
 !                       INSTANT TEMPERATURE                          !
 ! ------------------------------------------------------------------ !
 
-subroutine function insttemp(Natoms,kine,temp)
+subroutine insttemp(Natoms,kine,temp)
 implicit none
 ! Input
 integer Natoms
-double precision kine
+double precision kine,temp
 ! Other variables
 integer Nf
 ! ****************************************************************** !
@@ -55,7 +55,7 @@ integer Nf
 Nf = 3*Natoms - 3
 temp = 2.d0*kine/dble(Nf)
 
-end function insttemp
+end subroutine insttemp
 
 ! ------------------------------------------------------------------ !
 !                           TOTAL ENERGY                             !

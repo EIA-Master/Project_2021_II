@@ -2,7 +2,7 @@
 # Start of the makefile
 # Defining variables
 
-objects = forces.o main.o Initialize.o parallel.o Integration.o boundary.o statistics.o radial_distribution.o reader.o
+objects = forces.o main.o Initialize.o Integration.o boundary.o statistics.o radial_distribution.o reader.o
 f90comp = gfortran
 
 OPT= -O3
@@ -11,8 +11,6 @@ programa.exe: $(objects)
 	$(f90comp) -o programa.exe $(OPT) $(objects)
 reader.o: reader.f90
 	$(f90comp) -c $(OPT) reader.f90
-parallel.o: parallel.f90
-	$(f90comp) -c $(OPT) parallel.f90
 boundary.o: boundary.f90
 	$(f90comp) -c $(OPT) boundary.f90
 Initialize.o: Initialize.f90

@@ -22,5 +22,5 @@ pause -1
 set output "radial_distribution.png"
 set xlabel "distance (dimensionless)"
 set ylabel "g(r) (dimensionless)"
-plot "Thermodynamics.dat" i 1 u 1:2 w l notitle
+plot "gdr.dat" u 1:2 w l notitle
 pause -1

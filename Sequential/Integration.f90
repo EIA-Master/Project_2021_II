@@ -121,7 +121,7 @@
 		if (thermostat .eqv. .true.) call Andersen(Npart,T,nv) ! If indicated, couple the system to an Andersen thermostat. Otherwise temperature can evolve with time.
 		
 		! Write the new positions to in XYZ format (trajectories):	
-		if (mod(i,1000) .eq. 0) then	
+		if (mod(i,500) .eq. 0) then	
 			write(14,*) Npart  
 			write(14,*) "" 
 			do j=1,Npart
