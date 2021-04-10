@@ -7,7 +7,8 @@
 	CONTAINS 
 	
 
-	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,numproc,index_part,numsend,allgather,taskid,rnew,vnew,Fnew,pot)
+	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,numproc,index_part,numsend,allgather,taskid,rnew,vnew,Fnew,pot,&
+	pairs,pair_limits)
 	! ************************************************************************************************ !
 	! This subroutine implements one step of the velocity Verlet algorithm.
 	! INPUT:
@@ -45,15 +46,19 @@
 	! - Parallel
 	INTEGER, intent(in) :: numproc,taskid
 	INTEGER, intent(in) :: index_part(numproc,2),numsend(numproc),allgather(numproc)
-	INTEGER :: ierror
+	INTEGER :: MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror
 	! Other variables:
 	INTEGER i,j,k
 	! Output:
 	REAL*8 r(:,:),rnew(:,:),v(:,:),vnew(:,:),F(:,:),Fnew(:,:)
 	REAL*8 pot
+!	integer :: npairs
+      integer :: pairs(N*(N-1)/2,2)
+!      integer :: pair_per_proc
+      integer :: pair_limits(numproc,2)
+!	COMMON/pairs/npairs,pairs,pair_per_proc,pair_limits
 	! ************************************************************************************************ !
-    include 'mpif.h'
-    
+
 	! Calculating new coordinates.
 	rnew(:,index_part(taskid+1,1):index_part(taskid+1,2)) = & 
 	r(:,index_part(taskid+1,1):index_part(taskid+1,2)) + &
@@ -61,14 +66,14 @@
 	.5d0*F(:,index_part(taskid+1,1):index_part(taskid+1,2))*dt*dt 
 
 	! Sharing the information all processors have calculated.
-!	do k=1,3
-!    	
-!		call MPI_ALLGATHERV(rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)),&
-!		numsend,MPI_DOUBLE_PRECISION, &
-!		rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)), &
-!		numsend,allgather,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror)
-!
-!    enddo
+	do k=1,3
+    	
+		call MPI_ALLGATHERV(rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)),&
+		numsend,MPI_DOUBLE_PRECISION, &
+		rnew(k,index_part(taskid+1,1):index_part(taskid+1,2)), &
+		numsend,allgather,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror)
+
+    enddo
 	
 	! Set periodic boundary conditions (put back particles that escape from the box).
 	do i=1,N
@@ -77,7 +82,8 @@
 	  enddo
 	enddo
 
-	call force_LJ(N,L,rcut,rnew,numproc,index_part,Fnew,pot) ! New forces.	
+	call force_LJ(N,L,rcut,rnew,numproc,pair_limits,taskid,Fnew,pot) ! New forces.
+
 
 	! New velocities.
 	vnew(:,index_part(taskid+1,1):index_part(taskid+1,2)) = &
@@ -90,7 +96,8 @@
 !------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	SUBROUTINE Integrate(Nsteps,Npart,Nradial,T,dt,rho,rcut,L, &
-     	sigma,thermostat,r0,v0,numproc,index_part,numsend,allgather,taskid)
+     	sigma,thermostat,r0,v0,numproc,index_part,numsend,allgather,taskid, &
+     	pairs,pair_limits)
 	! ************************************************************************************************ !
 	! This subroutine implements the integration of the equations of motion for all the particles of the system.
   	! INPUT:
@@ -139,10 +146,14 @@
 	! - Parallel
 	INTEGER, intent(in) :: numproc,taskid
 	INTEGER, intent(in) :: index_part(numproc,2),numsend(numproc),allgather(numproc)
-	INTEGER ierror
+	INTEGER MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror
+!	integer :: npairs
+      integer :: pairs(Npart*(Npart-1)/2,2)
+!      integer :: pair_per_proc
+      integer :: pair_limits(numproc,2)
+!	COMMON/pairs/npairs,pairs,pair_per_proc,pair_limits
 	! ************************************************************************************************ !	
-	include 'mpif.h'
-    
+	
 1  	FORMAT(A1,2X,3(F14.8,2X))
 2  	FORMAT(6(F14.8,2X))	
 	
@@ -152,29 +163,26 @@
 	
 	! Set initial state:
 	time = 0d0	
-	!pos(:,index_part(taskid+1,1):index_part(taskid+1,2)) = r0(:,index_part(taskid+1,1):index_part(taskid+1,2))
-	!vel(:,index_part(taskid+1,1):index_part(taskid+1,2)) = v0(:,index_part(taskid+1,1):index_part(taskid+1,2))
-    pos=r0
-    vel=v0
-    ! Sharing the information all processors have calculated.
-    !do i=index_part(taskid+1,1),index_part(taskid+1,2)
-        !do k=1,3
+	pos(:,index_part(taskid+1,1):index_part(taskid+1,2)) = r0(:,index_part(taskid+1,1):index_part(taskid+1,2))
+	vel(:,index_part(taskid+1,1):index_part(taskid+1,2)) = v0(:,index_part(taskid+1,1):index_part(taskid+1,2))
+	
+	! Sharing the information all processors have calculated.
+	do k=1,3
     	
-		    !call MPI_ALLGATHERV(pos(k,index_part(taskid+1,1):index_part(taskid+1,2)),&
-		    !numsend,MPI_DOUBLE_PRECISION, &
-		    !pos(k,index_part(taskid+1,1):index_part(taskid+1,2)), &
-		    !numsend,allgather,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror)
-        
-            !print*,taskid,pos(k,i)
-        !enddo
-    !enddo
+		call MPI_ALLGATHERV(pos(k,index_part(taskid+1,1):index_part(taskid+1,2)),&
+		numsend,MPI_DOUBLE_PRECISION, &
+		pos(k,index_part(taskid+1,1):index_part(taskid+1,2)), &
+		numsend,allgather,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierror)
+
+    enddo
 
 	! Calculating forces
-	call force_LJ(Npart,L,rcut,pos,numproc,index_part,forc,PE) 	
+	call force_LJ(Npart,L,rcut,pos,numproc,pair_limits,taskid,forc,PE) 	
 
 	! Calculating pressure and kinetic energy
 	call pressure(Npart,L,rho,pos,forc,Tinst,numproc,index_part,taskid,pressio)
-    call kinetic(Npart,vel,numproc,index_part,taskid,KE)
+	call kinetic(Npart,vel,numproc,index_part,taskid,KE)
+
 	! Master processor tasks
 	if (taskid == 0) then
 
@@ -188,7 +196,8 @@
 		! Compute the Temperature and total energy
 		call insttemp(Npart,KE,Tinst)
 		totalE = totalenergy(PE,KE)	
-		write(15,*) time, KE, PE, totalE, Tinst, pressio ! Write the values in "Thermodynamics.dat"	
+
+		write(15,2) time, KE, PE, totalE, Tinst, pressio ! Write the values in "Thermodynamics.dat"	
 
 	endif
 
@@ -197,7 +206,8 @@
 
 		time = dble(i)*dt
 
-		call Velocity_Verlet(Npart,dt,L,rcut,pos,vel,forc,numproc,index_part,numsend,allgather,taskid,np,nv,nf,PE)
+		call Velocity_Verlet(Npart,dt,L,rcut,pos,vel,forc,numproc,index_part,numsend,allgather,taskid,np,nv,nf,PE,&
+		pairs,pair_limits)
 
 		! If indicated, couple the system to an Andersen thermostat. Otherwise temperature can evolve with time.										  
 		if (thermostat .eqv. .true.) call Andersen(T,index_part,numproc,taskid,nv) 

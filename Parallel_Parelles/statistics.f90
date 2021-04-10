@@ -14,9 +14,9 @@ double precision:: vel(3,Natoms)
 ! - Parallel
 integer :: numproc,taskid
 integer :: index_particles(numproc,2)
-integer :: ierror
+integer :: MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror
 ! Output
-double precision kin,kr
+double precision kin
 ! Other variables
 integer II,JJ,KK
 ! ****************************************************************** !
@@ -24,7 +24,6 @@ integer II,JJ,KK
 ! velocities and calculates the global kinetic energy.
 ! ****************************************************************** !
 ! ------------------------------------------------------------------ !
-include 'mpif.h'
 
 kin = 0.d0
 do II = index_particles(taskid+1,1),index_particles(taskid+1,2)
@@ -37,8 +36,7 @@ enddo
 kin = kin*0.5d0
 
 ! Adding contributions.
-call MPI_REDUCE(kin,kr,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
-kin=kr
+call MPI_REDUCE(kin,kin,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
 
 return
 end subroutine kinetic
@@ -94,20 +92,19 @@ implicit none
 integer Natoms
 double precision L,rho,posis(3,Natoms),force(3,Natoms),temp
 ! Output
-double precision pres,pret
+double precision pres
 ! Other variables
 integer i,j
 ! Parallel variables
 integer :: numproc,taskid
 integer :: index_particles(numproc,2)
-integer :: ierror
+integer :: MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror
 ! ****************************************************************** !
 ! This subroutine takes as an input the knumber of atoms, the den-
 ! sity, the positions of the particles, the force applied to them,
 ! and the temperature to calculate the instantaneous pressure.
 ! ****************************************************************** !
 ! ------------------------------------------------------------------ !
-include 'mpif.h'
 
 pres = 0.d0
 
@@ -121,8 +118,7 @@ enddo
 
 pres = rho*temp + pres/(3.d0*(L**3)*Natoms)
 ! Sumem totes les contribucions de la pressió de tots els processadors 
-call MPI_REDUCE(pres,pret,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
-pres=pret
+call MPI_REDUCE(pres,pres,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
 return
 end subroutine pressure
 

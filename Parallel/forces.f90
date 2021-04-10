@@ -1,7 +1,6 @@
 module forces
       use boundary
       use initialize
-      use parallel
       implicit none
       contains
 
@@ -12,16 +11,20 @@ module forces
 !     (number of particles), cutoff (threshold),L (box length)
 !     OUTPUT: F (force) and Upot(potential energy)
 
-      subroutine force_LJ(Natoms,L,cutoff,r,numproc,index_particles,taskid,F,Upot)
+      subroutine force_LJ(Natoms,L,cutoff,r,numproc,index_particles,F,Upot)
       implicit none
-      double precision, dimension(:,:):: r,F,L
+      double precision, dimension(:,:) :: r,F
+      double precision L,Far,Uar
       double precision dr(3),cutoff, cf6,cf12,Upot
       double precision d2,d4,d6,d8,d12,d14,modf     
       integer i,j,k,Natoms
 ! Variables paralel      
       integer numproc,taskid
       integer :: index_particles(numproc,2)
+      integer :: ierror
       
+      include 'mpif.h'
+      call MPI_COMM_RANK(MPI_COMM_WORLD,taskid,ierror)
       F = 0.d0
       Upot = 0.d0
       do i = index_particles(taskid+1,1), index_particles(taskid+1,2)
@@ -50,9 +53,15 @@ module forces
             enddo
       enddo
 !	  Compartim la força de cada partícula per tots els processadors     
-      call MPI_ALLREDUCE(F,F,Natoms*3,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror)
-! 	  Sumem totes les contribucions de l'energia potencial de tots els processadors      
-      call MPI_REDUCE(Upot,Upot,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
+    do i=1,Natoms
+        do j=1,3
+            call MPI_ALLREDUCE(F(j,i),Far,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror)
+            F(j,i)=Far
+        enddo
+    enddo
+    ! 	  Sumem totes les contribucions de l'energia potencial de tots els processadors      
+      call MPI_ALLREDUCE(Upot,Uar,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierror)
+      Upot=Uar
       return
       end subroutine force_LJ
       
