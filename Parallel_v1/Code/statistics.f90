@@ -119,7 +119,7 @@ do i = index_particles(taskid+1,1), index_particles(taskid+1,2)
     enddo
 enddo
 
-pres = (rho*temp)/dble(numproc) + pres/(3.d0*(L**3)*Natoms)
+pres = rho*temp/dble(numproc) + pres/(3.d0*(L**3)*Natoms)
 ! Sumem totes les contribucions de la pressió de tots els processadors 
 call MPI_REDUCE(pres,pret,1,MPI_DOUBLE_PRECISION,MPI_SUM,0,MPI_COMM_WORLD,ierror)
 pres=pret
@@ -127,3 +127,4 @@ return
 end subroutine pressure
 
 end module statistics
+

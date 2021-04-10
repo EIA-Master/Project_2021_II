@@ -94,7 +94,7 @@
 
     do i=1,N
         do j=1,3
-            vnew(j,i)=v(j,i)+Fnew(j,i)*0.5*dt
+            vnew(j,i)=v(j,i)+(F(j,i)+Fnew(j,i))*0.5*dt
         enddo
     enddo
             
@@ -193,16 +193,16 @@
 	if (taskid == 0) then
 
 		! Write initial configuration.
-		write(14,*) Npart
-		write(14,*) ""
+		write(14,1) Npart
+		write(14,1) ""
 		do j=1,Npart  
-			write(14,*) "A", pos(:,j)
+			write(14,1) "A", pos(:,j)
 		enddo
 
 		! Compute the Temperature and total energy
 		call insttemp(Npart,KE,Tinst)
 		totalE = totalenergy(PE,KE)	
-		write(15,*) time, KE, PE, totalE, Tinst, pressio ! Write the values in "Thermodynamics.dat"	
+		write(15,2) time, KE, PE, totalE, Tinst, pressio ! Write the values in "Thermodynamics.dat"	
 
 	endif
 
@@ -224,10 +224,10 @@
 
 			! Write the new positions to in XYZ format (trajectories):	
 			if (mod(i,100) .eq. 0) then	
-				write(14,*) Npart  
-				write(14,*) "" 
+				write(14,1) Npart  
+				write(14,1) "" 
 				do j=1,Npart
-					write(14,*) "A", pos(:,j)
+					write(14,1) "A", pos(:,j)
 				enddo
 			endif
 
@@ -236,7 +236,7 @@
 			totalE = totalenergy(PE,KE)
 			call radial_dist(Npart,Nradial,L,np,g)
 
-			if (mod(i,500).eq.0) write(15,*) time, KE, PE, totalE, Tinst, pressio 
+			if (mod(i,500).eq.0) write(15,2) time, KE, PE, totalE, Tinst, pressio 
 
 		endif		
 
@@ -321,3 +321,4 @@
       END SUBROUTINE BOXMULLER
      
      END MODULE integration
+
