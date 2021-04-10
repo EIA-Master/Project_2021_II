@@ -2,8 +2,8 @@
 # Start of the makefile
 # Defining variables
 
-objects = forces.o main.o Initialize.o Integration.o boundary.o statistics.o radial_distribution.o reader.o
-f90comp = gfortran
+objects = forces.o main.o Initialize.o Integration.o boundary.o statistics.o radial_distribution.o reader.o parallel.o
+f90comp = mpif90
 
 OPT= -O3
 # Makefile
@@ -11,6 +11,8 @@ programa.exe: $(objects)
 	$(f90comp) -o programa.exe $(OPT) $(objects)
 reader.o: reader.f90
 	$(f90comp) -c $(OPT) reader.f90
+parallel.o: parallel.f90
+	$(f90comp) -c $(OPT) parallel.f90
 boundary.o: boundary.f90
 	$(f90comp) -c $(OPT) boundary.f90
 Initialize.o: Initialize.f90
@@ -23,7 +25,7 @@ Integration.o: boundary.o forces.o statistics.o radial_distribution.o Integratio
 	$(f90comp) -c $(OPT) Integration.f90
 radial_distribution.o: boundary.o radial_distribution.f90
 	$(f90comp) -c $(OPT) radial_distribution.f90	
-main.o: Initialize.o Integration.o reader.o main.f90
+main.o: Initialize.o Integration.o reader.o parallel.o  main.f90
 	$(f90comp) -c $(OPT) main.f90
   
 ## clean: Remove *.o , *.mod and *.exe files
