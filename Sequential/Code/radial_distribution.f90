@@ -1,8 +1,15 @@
+!author: Alba Fischer Carles
 module radial_distribution      
       use boundary
       implicit none
       contains
       
+!     Calculates the radial distribution function of a system of N  
+!     identical particles interacting through a Lennard-Jones potential, 
+!     considering periodic boundary conditions.
+!     INPUT: r (array with x, y, z coordinates of particles),Natoms
+!     (number of particles), Nradial(number of bins),L (box length)
+!     OUTPUT: g (radial distribution normalized)
       subroutine radial_dist(Natoms,Nradial,L,r,g)
       implicit none
       double precision g(Nradial),r(3,Natoms),dr(3),dist,bin_size,L
