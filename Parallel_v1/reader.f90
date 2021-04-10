@@ -6,7 +6,7 @@ contains
 !                             FILE READER                            !
 ! ------------------------------------------------------------------ !
 
-subroutine read_files(numproc,temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
+subroutine read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
 implicit none
 ! MPI variables: 
 integer:: taskid,comm,ierror,reslen,message,partner,request
@@ -16,7 +16,7 @@ character*8 inputfile
 character:: dummie_variable
 ! Output
 double precision:: temp,density,timestep,sigma,epsilon,mass
-integer:: numproc,Natoms,Nsteps,Nradial
+integer:: Natoms,Nsteps,Nradial
 ! ****************************************************************** !
 ! This subroutine reads all the data in the data.txt file necessary
 ! in order to perform the simulation with the experimental values
@@ -27,7 +27,6 @@ inputfile = 'data.txt'
 
 open(unit = 50, file = inputfile)
 
-read(50,*) dummie_variable,numproc
 read(50,*) dummie_variable,temp
 read(50,*) dummie_variable,density
 read(50,*) dummie_variable,timestep
