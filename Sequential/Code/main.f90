@@ -24,6 +24,10 @@ integer Natoms,Nsteps,Nradial
 ! Calling initial time
 call cpu_time(ini_time)
 
+! Print
+print*, '---------------------------'
+print*, 'Beginning of the simulation'
+
 ! Lectura del fitxer amb les dades necessàries per la simulació
 call read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
 
@@ -46,7 +50,11 @@ vel0,pf,vf,ff)
 ! Calling final time
 call cpu_time(fin_time)
 
+
+! Print
 print*, 'Total time of computation:',fin_time-ini_time
+print*, 'End of the simulation'
+print*, '---------------------------'
 
 deallocate(pos0)
 deallocate(vel0)
