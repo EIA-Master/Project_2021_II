@@ -21,7 +21,10 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD,Nproc,ierror)
 
 Nppp=Npart/Nproc
 N3=Npart**(1./3.)+1
-L=(Npart/ro)**(1./3.)
+
+L=N3/(ro**(1./3.))
+!L=(Npart/ro)**(1./3.)
+
 A=L/dble(N3)
 pi=4.d0*datan(1.d0)
 aver=0.d0
@@ -33,28 +36,48 @@ vel=0.d0
 ! Each processor wil start from a different particle and will compute the
 ! position and velocity of Nppp particles
 atom=Nppp*rank
-ii=mod(atom,N3)
-jj=atom/N3
-kk=atom/(N3**2)
-do while (jj.ge.N3)
+
+ii=mod(atom,N3)  
+jj=atom/N3 +1 
+kk=atom/(N3**2) +1  
+
+do while (jj.gt.N3)
+
+!ii=mod(atom,N3)
+!jj=atom/N3
+!kk=atom/(N3**2)
+!do while (jj.ge.N3)
+
     jj=jj-N3
 enddo
 do ll=1,Nppp
     atom=atom+1
     ii=ii+1
-    if (ii.ge.N3) then
-        ii=0
+
+    if (ii.gt.N3) then
+        ii=1
         jj=jj+1
-        if (jj.ge.N3) then
-            jj=0
+        if (jj.gt.N3) then
+            jj=1
             kk=kk+1
         endif
     endif
-
-    posi(1,atom)=A*ii-L/2.d0
+    posi(1,atom)=A*kk-L/2.d0
     posi(2,atom)=A*jj-L/2.d0
-    posi(3,atom)=A*kk-L/2.d0
+    posi(3,atom)=A*ii-L/2.d0
 
+!    if (ii.ge.N3) then
+!        ii=0
+!        jj=jj+1
+!        if (jj.ge.N3) then
+!            jj=0
+!            kk=kk+1
+!        endif
+!    endif
+!
+!    posi(1,atom)=A*ii-L/2.d0
+!    posi(2,atom)=A*jj-L/2.d0
+!    posi(3,atom)=A*kk-L/2.d0
     
     ! The velocities are initialized in a MB distribution
     do mm=1,3
@@ -63,6 +86,7 @@ do ll=1,Nppp
         x1=1.d0-x1
         x2=1.d0-x2
         phi=2.d0*pi*x2
+
         vel(mm,atom)=dsqrt(-2.d0*temp*dlog(x1))*dsin(phi)
 
         ! We compute the averages so we can rescale the velocities later
