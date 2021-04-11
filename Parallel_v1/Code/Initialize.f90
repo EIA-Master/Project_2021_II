@@ -30,6 +30,7 @@ aver2=0.d0
 call RANDOM_SEED()
 posi=0.d0
 vel=0.d0
+
 ! Each processor wil start from a different particle and will compute the
 ! position and velocity of Nppp particles
 atom=Nppp*rank
