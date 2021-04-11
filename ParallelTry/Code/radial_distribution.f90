@@ -1,5 +1,3 @@
-! Author: Alba Fischer
-
 module radial_distribution      
       use boundary
       implicit none

@@ -1,4 +1,3 @@
-! Author: Jaume Garcia
 module parallel
     IMPLICIT NONE
 

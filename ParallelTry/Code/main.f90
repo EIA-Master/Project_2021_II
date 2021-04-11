@@ -1,8 +1,6 @@
 ! Author: Jaume Garcia
-
 ! Programa principal que crida les subrutines per inicialitzar el sistema
 ! i realitza la simulació amb un bany tèrmic. 
-
 program main
 use Initialize
 use Integration
@@ -30,26 +28,13 @@ integer, allocatable  :: index_particles(:,:)
 integer, allocatable ::  allgather_pointer(:)
 integer, allocatable :: num_send(:)
 integer ii
-
 ! Lectura del fitxer amb les dades necessàries per la simulació
 call read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
 
-! Inicialitzar MPI
 call MPI_INIT(ierror)
 call MPI_COMM_RANK(MPI_COMM_WORLD,taskid,ierror)
 call MPI_COMM_SIZE(MPI_COMM_WORLD,numproc,ierror)
-
-! Print
-if (taskid.eq.0) then 
-    t_ini = MPI_WTIME()
-    ! Print
-    print*, '--------------------------------'
-    print*, 'EIA Project: Parallel version'
-    print*, '--------------------------------'
-
-    print*, '- Beginning of the simulation'
-endif 
-
+if (taskid.eq.0) t_ini = MPI_WTIME()
 master = 0
 
 allocate(index_particles(numproc,2))
@@ -82,9 +67,8 @@ deallocate(num_send)
 
 IF (taskid==0) then
     t_final = MPI_WTIME()
-    print*, "- Number of processors = ",numproc
-    print*, "- Total time of computation = ",t_final-t_ini
-    print*, '--------------------------------'
+    print*, "Número de processadors = ",numproc
+    print*, "Temps de simulació = ",t_final-t_ini
 END IF
 call MPI_FINALIZE(ierror)
 

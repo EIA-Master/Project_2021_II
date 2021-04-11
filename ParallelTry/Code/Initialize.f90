@@ -1,15 +1,11 @@
-! Author: Arnau Prat
-
 module initialize
 implicit none
 contains
 
 
 subroutine initial(Npart,ro,temp,posi,vel,L)
-
 ! given a number of particles of a system of density ro and temperature temp,
 ! this subroutine returns the position and velocities of those particles.
-
 implicit none
 double precision posi(3,Npart),vel(3,Npart),aver(3),aver2,Ro,L,A,temp,x1,x2,phi,pi
 double precision p,v,a1,a2
@@ -20,7 +16,6 @@ include 'mpif.h'
 
 ! Each processor will compute the position and velocities of a certain number of
 ! particles, Nppp (Number of Particles Per Processor)
-
 call MPI_COMM_RANK(MPI_COMM_WORLD,rank,ierror)
 call MPI_COMM_SIZE(MPI_COMM_WORLD,Nproc,ierror)
 
@@ -38,7 +33,6 @@ vel=0.d0
 
 ! Each processor wil start from a different particle and will compute the
 ! position and velocity of Nppp particles
-
 atom=Nppp*rank
 
 ii=mod(atom,N3)  
@@ -87,7 +81,6 @@ enddo
 ! Since normally Nppp*Nproc < Npart, we will have some missing particles. Those
 ! ones will be computed by the main processos (rank = 0) using the same
 ! algorithm as before
-
 if (rank.eq.0)then
     atom=Nppp*Nproc
     ii=mod(atom,N3)
@@ -165,7 +158,11 @@ enddo
 
 vel=vel*dsqrt(3.d0*Npart*temp/aver2)
 
+
+
 return
 end subroutine initial
+
+
 
 end module initialize
