@@ -1,3 +1,4 @@
+!author: Alba Fischer Carles
 module forces
       use boundary
       use initialize
@@ -14,10 +15,10 @@ module forces
       subroutine force_LJ(Natoms,L,cutoff,r,F,Upot)
       implicit none
       double precision r(3,Natoms),F(3,Natoms),L
-      double precision dr(3),cutoff, cf6,cf12,Upot
+      double precision dr(3),cutoff, cf6,cf12,Upot, cutoff2
       double precision d2,d4,d6,d8,d12,d14,modf     
       integer i,j,k,Natoms
-      
+      cutoff2 = cutoff*cutoff
       F = 0.d0
       Upot = 0.d0
       do i = 1,Natoms
@@ -27,7 +28,7 @@ module forces
                         call PBC1(L,dr(k))
                   enddo
                   d2 = dr(1)**2 + dr(2)**2 + dr(3)**2
-                  if (d2.lt.(cutoff*cutoff)) then
+                  if (d2.lt.(cutoff2)) then
                         d4 = d2*d2
                         d6 = d4*d2
                         d8 = d6*d2
