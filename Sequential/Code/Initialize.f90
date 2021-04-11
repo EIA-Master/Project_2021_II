@@ -11,7 +11,8 @@ DOUBLE PRECISION AVER(3),AVER2,X1,X2,PHI,PI
 INTEGER Natoms,N3,II,JJ,KK,ATOM,SEED
 
 
-N3=Natoms**(1./3.)+1
+N3=Natoms**(1./3.) 
+!N3=Natoms**(1./3.)+1
 
 
 

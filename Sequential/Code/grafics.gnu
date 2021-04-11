@@ -1,26 +1,48 @@
 # Author: Jaume Garcia
 
-set term png
-set output "energies.png"
+! ----------------------------------------------------------------------------------- !
+!                               ENERGIES                                              !
+! ----------------------------------------------------------------------------------- !
+set term eps
+set output "energies.eps"
+set title 'Energies' temporal evolution'
 set xlabel "time (dimensionless)"
 set ylabel "energy (dimensionless)"
-plot "Thermodynamics.dat" i 0 u 1:2 w l t 'Kinetic',"Thermodynamics.dat" i 0 u 1:3 w l t 'Potential',"Thermodynamics.dat" i 0 u 1:4 w l t 'Total'
-pause -1
+set key outside
 
-set output "temperature.png"
+plot "Thermodynamics.dat" i 0 u 1:2 w l t 'Kinetic',"Thermodynamics.dat"\
+ i 0 u 1:3 w l t 'Potential',"Thermodynamics.dat" i 0 u 1:4 w l t 'Total'
+
+! ----------------------------------------------------------------------------------- !
+!                               TEMPERATURE                                           !
+! ----------------------------------------------------------------------------------- !
+set output "temperature.eps"
+set title 'Temperature's temporal evolution'
 set xlabel "time (dimensionless)"
 set ylabel "temperature (dimensionless)"
-plot "Thermodynamics.dat" i 0 u 1:5 w l notitle
-pause -1
+set key outside
 
-set output "pressure.png"
+plot "Thermodynamics.dat" i 0 u 1:5 w l notitle
+
+! ----------------------------------------------------------------------------------- !
+!                                PRESSURE                                             !
+! ----------------------------------------------------------------------------------- !
+set output "pressure.eps"
+set title 'Pressure's temporal evolution'
 set xlabel "time (dimensionless)"
 set ylabel "pressure (dimensionless)"
-plot "Thermodynamics.dat" i 0 u 1:6 w l notitle
-pause -1
+set key outside
 
-set output "radial_distribution.png"
+plot "Thermodynamics.dat" i 0 u 1:6 w l notitle
+
+! ----------------------------------------------------------------------------------- !
+!                            RADIAL DISTRIBUTION                                      !
+! ----------------------------------------------------------------------------------- !
+set output "radial_distribution.eps"
+set title 'Radial distribution'
 set xlabel "distance (dimensionless)"
 set ylabel "g(r) (dimensionless)"
+set key outside
+
 plot "gdr.dat" u 1:2 w l notitle
-pause -1
+

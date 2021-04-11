@@ -25,8 +25,11 @@ integer Natoms,Nsteps,Nradial
 call cpu_time(ini_time)
 
 ! Print
-print*, '---------------------------'
-print*, 'Beginning of the simulation'
+print*, '--------------------------------'
+print*, 'EIA Project: Sequential version'
+print*, '--------------------------------'
+
+print*, '- Beginning of the simulation'
 
 ! Lectura del fitxer amb les dades necessàries per la simulació
 call read_files(temp,density,timestep,sigma,epsilon,mass,Natoms,Nsteps,Nradial)
@@ -43,6 +46,9 @@ call initial(Natoms,density,temp,pos0,vel0,L)
 
 rcut= L/2.d0 ! Cut-off
 
+! Print 
+print*, '- Integrating'
+
 ! Integrem les equacions del moviment i escrivim els resultats en fitxers
 call Integrate(Nsteps,Natoms,Nradial,temp,timestep,density,rcut,L,sigma,true,pos0, &
 vel0,pf,vf,ff)
@@ -52,9 +58,9 @@ call cpu_time(fin_time)
 
 
 ! Print
-print*, 'Total time of computation:',fin_time-ini_time
-print*, 'End of the simulation'
-print*, '---------------------------'
+print*, '- Total time of computation:',fin_time-ini_time
+print*, '- End of the simulation'
+print*, '--------------------------------'
 
 deallocate(pos0)
 deallocate(vel0)
