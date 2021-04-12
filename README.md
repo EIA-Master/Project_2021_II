@@ -29,18 +29,17 @@
 
 # Repository information
 
-This repository contains nine files consisting on:
+This repository contains four main folders, all of the containing the corresponding code, data and images:
+       - Sequential
+       - Parallel_v1
+       - Parallel_v2
+       - Parallel_v3
 
-- Seven modules
-- One main program
-- One file to visualize the results with gnuplot
-- One makefile to join all the parts
+## Modules shared by Sequential and Parallel:
 
-## Modules
+### reader.f90:
 
-### Parameters.f90:
-
-Module with all the needed parameters known of the problem.
+Module with subroutine that reads the input of the program.
 
 ### Initialize.f90:
 
@@ -108,9 +107,19 @@ Makefile used to:
 
 This file contains all the information that the program needs to simulate the system. It is very important not to change the format of it and to put the numbers matching Fortran 90's syntax (i.e. 2.d0).
 
+## Modules only in Parallel
+
+### parallel.f90
+
+This module has the subroutine that assigns the number of particles to simulate each processor.
+
+### openmpi.sub
+
+This is the script used to send works to the cluster's queue.
+
 ---
 
-# How to compile?
+# How to compile the sequential version?
 
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
@@ -149,5 +158,6 @@ this will generate three plots:
 
 # Files from the simulation
 
-In this repository we have also included thermodynamics.dat file with all the calculations performed.
+The files generated in each simulation are in the folder: Data.
+The images generated in each simulation are in the folder: Images.
 
