@@ -18,6 +18,7 @@
 
 ## Tasks:
 
+1. Sequential
 - Initial state: Arnau
 - Boundy conditions: Jaume
 - Forces/Radial distribution: Alba
@@ -25,6 +26,11 @@
 - Integration: Edgar
 - Visualitzation: Jaume
 
+2. Parallel
+- Initial state: Arnau/Alba 
+- Forces: Jaume/Alba/Edgar/Ignasi/Arnau
+- Statistics: Ignasi/Jaume/Arnau
+- Integration: Ignasi/Jaume/Arnau
 ---
 
 # 1. Repository information
