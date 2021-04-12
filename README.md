@@ -123,7 +123,7 @@ This is the script used to send works to the cluster's queue.
 
 ---
 
-# How to compile the sequential version?
+# How to compile?
 
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
@@ -131,6 +131,9 @@ This is the script used to send works to the cluster's queue.
         :> make
 
 This will create and executable named programa.exe.
+
+# Running the program:
+## Sequential
 
 3. To run the program execute programa.exe.
 
@@ -141,7 +144,17 @@ This will create and executable named programa.exe.
   3.2. If you are using Windows:
 
     :> .\programa.exe
+    
+ ## Parallel
+ 
+ 3. To run the program execute programa.exe.
 
+    :> mpirun -np 4 programa.exe
+    
+    where this 4 is the number of processors you want to execute the program.
+    
+ # Results
+ 
    This will generate two files:
 
    3.2.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
