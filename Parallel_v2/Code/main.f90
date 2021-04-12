@@ -55,7 +55,7 @@ call MPI_BCAST(pos0, Natoms*3, MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, IERROR)
 call MPI_BCAST(vel0, Natoms*3, MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, IERROR)
 
 ! Integrem les equacions del moviment i escrivim els resultats en fitxers
-call Integrate(Nsteps,Natoms,Nradial,temp,timestep,density,rcut,L,sigma,.false.,pos0, &
+call Integrate(Nsteps,Natoms,Nradial,temp,timestep,density,rcut,L,sigma,true,pos0, &
 vel0,numproc,index_particles,num_send,allgather_pointer,taskid)
 
 deallocate(pos0)
