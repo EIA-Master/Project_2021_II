@@ -1,6 +1,4 @@
-! Edgar Alvarez Galera
-! Eines Informàtiques Avançades: Project
-! Last modification: 02/03/2021
+! Author: Ignasi Puch
 
 	MODULE integration
 	IMPLICIT NONE
