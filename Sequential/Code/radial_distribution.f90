@@ -1,4 +1,4 @@
-!author: Alba Fischer Carles
+! Author: Alba Fischer Carles
 module radial_distribution      
       use boundary
       implicit none
@@ -40,14 +40,14 @@ module radial_distribution
       pi = atan(1.d0)*4 
       bin_size =  L/(2.d0*dble(Nradial))
       
-      !volum of every bin
+      ! Volume of every bin
 
       do i  = 1,Nradial
             V(i) = (4.d0/3.d0)*pi*(dble(i)*bin_size)**3-(4.d0/3.d0)*pi &
             *(dble(i-1)*bin_size)**3
       enddo
 
-      !normalize radial distribution g
+      ! Normalize radial distribution g
       g = g*(2.d0/(V*rho*Natoms*Nsteps))
 
       return
