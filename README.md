@@ -29,15 +29,17 @@
 
 # 1. Repository information
 
-This repository contains four main folders, all of the containing the corresponding code, data and images:
+This repository contains two main folders:
 
-- Sequential
+- Sequential: This folder contains the code, the data and the images obtained for the sequential version of the program.
 
-- Parallel_v1
+- Parallel: This folder contains three subfolders each containing different strategies of parallelization:
 
-- Parallel_v2
+       1. Parallel_v1
+       2. Parallel_v2
+       3. Parallel_v3
 
-- Parallel_v3
+each of this folders has the code, the data and the images obtained for each version of the parallel program.
 
 ## Modules shared by Sequential and Parallel:
 
