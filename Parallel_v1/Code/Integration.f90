@@ -163,7 +163,7 @@
 	open(14,file="Positions.xyz")
 	open(15,file="Thermodynamics.dat")
 	open(16,file="gdr.dat")
-	
+	g=0.d0
 	! Set initial state:
 	time = 0d0	
 	!pos(:,index_part(taskid+1,1):index_part(taskid+1,2)) = r0(:,index_part(taskid+1,1):index_part(taskid+1,2))
