@@ -149,7 +149,7 @@ This will create and executable named programa.exe.
  
  3. To run the program execute programa.exe.
 
-    :> mpirun -np 4 programa.exe
+        :> mpirun -np 4 programa.exe
     
     where this 4 is the number of processors you want to execute the program.
     
