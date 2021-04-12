@@ -27,7 +27,7 @@
 
 ---
 
-# 1.Repository information
+# 1. Repository information
 
 This repository contains four main folders, all of the containing the corresponding code, data and images:
 
