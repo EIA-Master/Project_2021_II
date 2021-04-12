@@ -1,3 +1,4 @@
+! Author: Ignasi Puch
 module statistics
 ! Module with functions and subroutines to calculate averages.
 implicit none
