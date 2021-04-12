@@ -217,7 +217,7 @@
 		if (thermostat .eqv. .true.) call Andersen(T,index_part,numproc,taskid,nv) 
 
 		! Pressure and kinetic energy per step.
-		call pressure(Npart,L,rho,np,nf,T,numproc,index_part,taskid+1,pressio)
+		call pressure(Npart,L,rho,np,nf,T,numproc,index_part,taskid,pressio)
 		call kinetic(Npart,nv,numproc,index_part,taskid,KE)
 		
 	if (taskid == 0) then
