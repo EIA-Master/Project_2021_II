@@ -30,10 +30,14 @@
 # Repository information
 
 This repository contains four main folders, all of the containing the corresponding code, data and images:
-       - Sequential
-       - Parallel_v1
-       - Parallel_v2
-       - Parallel_v3
+
+- Sequential
+
+- Parallel_v1
+
+- Parallel_v2
+
+- Parallel_v3
 
 ## Modules shared by Sequential and Parallel:
 
