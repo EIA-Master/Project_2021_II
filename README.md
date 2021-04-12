@@ -27,7 +27,7 @@
 
 ---
 
-# Repository information
+# 1.Repository information
 
 This repository contains four main folders, all of the containing the corresponding code, data and images:
 
@@ -123,7 +123,7 @@ This is the script used to send works to the cluster's queue.
 
 ---
 
-# How to compile?
+# 2. How to compile?
 
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
@@ -132,7 +132,7 @@ This is the script used to send works to the cluster's queue.
 
 This will create and executable named programa.exe.
 
-# Running the program:
+# 3. Running the program:
 ## Sequential
 
 3. To run the program execute programa.exe.
@@ -153,13 +153,16 @@ This will create and executable named programa.exe.
     
     where this 4 is the number of processors you want to execute the program.
     
- # Results
+ # 4. Results
  
    This will generate two files:
 
    3.2.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
   
    3.2.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
+
+   3.2.3. gdr.dat: Contains the information to plot the radial distribution.
+
 
 4. To visualize the plots you must type in your command line
 
@@ -172,9 +175,3 @@ this will generate three plots:
   4.2. Evolution of the intantaneous temperature.
    
   4.3. Evolution of the instantaneous pressure.
-
-# Files from the simulation
-
-The files generated in each simulation are in the folder: Data.
-The images generated in each simulation are in the folder: Images.
-
