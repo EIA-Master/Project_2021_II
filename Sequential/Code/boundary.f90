@@ -1,5 +1,6 @@
+! Author: Jaume Garcia
 module boundary
-! Mòdul que conté les dues subrutines amb les condicions periòdiques de contorn 
+! Mòdul que conté la subrutina amb les condicions periòdiques de contorn 
 implicit none
 contains
 

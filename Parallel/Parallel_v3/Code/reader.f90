@@ -1,5 +1,6 @@
 ! Author: Ignasi Puch
 module reader 
+! Module that contains subroutine to read all the data in data.txt file
 contains 
 
 ! ------------------------------------------------------------------ !

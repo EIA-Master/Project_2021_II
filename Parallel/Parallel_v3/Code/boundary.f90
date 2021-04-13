@@ -1,3 +1,4 @@
+!Author: Jaume Garcia
 module boundary
 ! Mòdul que conté les dues subrutines amb les condicions periòdiques de contorn 
 implicit none

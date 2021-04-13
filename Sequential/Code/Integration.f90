@@ -1,11 +1,16 @@
-! Edgar Alvarez Galera
+! Author: Edgar Alvarez Galera
 ! Eines Informàtiques Avançades: Project
 ! Last modification: 02/03/2021
 
 	MODULE integration
+      ! Module that contains subroutine to implement one step of Velocity 
+      ! Verlet algorithm, subroutine to implement the integration of the 
+      ! equations of motion for all the particles of the system, subroutine
+      ! to implement Andersen Thermostat and subroutine to convert two 
+      ! random numbers from a uniform distribution into two others
+      
 	IMPLICIT NONE
-	CONTAINS 
-	
+	CONTAINS 	
 
 	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,rnew,vnew,Fnew,pot)
 	! This subroutine implements one step of the velocity Verlet algorithm.

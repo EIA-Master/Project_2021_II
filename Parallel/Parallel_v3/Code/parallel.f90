@@ -1,8 +1,20 @@
+! Author: Edgar Alvarez 
 module parallel
+!     Module that contains the subroutine to assign the corresponding
+!     particles to each processor.
     IMPLICIT NONE
 
     contains
     SUBROUTINE assignacio(Natoms,numproc,index_particles,allgather_pointer,num_send,pairs,pair_limits)
+
+!     Assigns the corresponding particles to each processor.
+!     INPUT: Natoms (number of particles), numproc (Number of processors)
+!     OUTPUT: index_particles (array that contains in (i,1) component, 
+!     lower limit sent to processor and in (i,2) upper limit), 
+!     allgather_pointer(punter d'assignació), num_send (number of particles
+!     sent to each processor), pairs (number of particle pairs),
+!     pair_limits (number of particle pairs in each processor)
+
         implicit none
         integer :: i,j,k
         integer :: particle_per_proc,residu

@@ -1,6 +1,8 @@
 ! Author: Jaume Garcia
 
 module forces
+! Module that contains the subroutine to implement forces and 
+! compute Lenard Jones potential. Symmetric matrix parallel version
 use boundary
 use initialize
 implicit none
@@ -21,7 +23,7 @@ double precision dr(3),cutoff, cf6,cf12,Upot
 double precision d2,d4,d6,d8,d12,d14,modf     
 integer i,j,k,Natoms
 
-! Variables paralel      
+! Parallel variables     
 integer numproc,taskid
 integer :: index_particles(numproc,2)
 integer :: ierror

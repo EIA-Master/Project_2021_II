@@ -1,6 +1,8 @@
-! Author: Jaume Garcia
+! Author: Alba Fischer
 
 module forces
+! Module that contains the subroutine to implement forces and 
+! compute Lenard Jones potential. Double work parallel version
 use boundary
 use initialize
 implicit none
