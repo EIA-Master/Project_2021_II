@@ -31,7 +31,7 @@
 - Forces: Jaume/Alba/Edgar/Ignasi/Arnau
 - Statistics: Ignasi/Jaume/Arnau
 - Integration: Ignasi/Jaume/Arnau
-- Parallel: Jaume
+- Parallel: Jaume/Edgar
 ---
 
 # 1. Repository information
@@ -125,10 +125,6 @@ This file contains all the information that the program needs to simulate the sy
 ### parallel.f90
 
 This module has the subroutine that assigns the number of particles to simulate each processor.
-
-### openmpi.sub
-
-This is the script used to send works to the cluster's queue.
 
 ---
 
