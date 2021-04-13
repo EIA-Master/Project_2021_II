@@ -31,6 +31,7 @@
 - Forces: Jaume/Alba/Edgar/Ignasi/Arnau
 - Statistics: Ignasi/Jaume/Arnau
 - Integration: Ignasi/Jaume/Arnau
+- Parallel: Jaume
 ---
 
 # 1. Repository information
