@@ -19,7 +19,7 @@ set ylabel "energy (kJ/mol)"
 set xrange[*:12]
 set yrange[*:*]
 
-set key outside
+set key inside right center
 
 plot "Thermodynamics.dat" i 0 u ($1)*sqrt(mass*sigma*sigma/(epsilon*0.8314)):($2)*epsilon*0.008314\
  w l t 'Kinetic',"Thermodynamics.dat" i 0 u ($1)*sqrt(mass*sigma*sigma/(epsilon*0.8314)):($3)*epsilon*0.008314\

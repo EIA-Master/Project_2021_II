@@ -18,6 +18,7 @@
 
 ## Tasks:
 
+1. Sequential
 - Initial state: Arnau
 - Boundy conditions: Jaume
 - Forces/Radial distribution: Alba
@@ -25,22 +26,32 @@
 - Integration: Edgar
 - Visualitzation: Jaume
 
+2. Parallel
+- Initial state: Arnau/Alba 
+- Forces: Jaume/Alba/Edgar/Ignasi/Arnau
+- Statistics: Ignasi/Jaume/Arnau
+- Integration: Ignasi/Jaume/Arnau
 ---
 
-# Repository information
+# 1. Repository information
 
-This repository contains nine files consisting on:
+This repository contains two main folders:
 
-- Seven modules
-- One main program
-- One file to visualize the results with gnuplot
-- One makefile to join all the parts
+- Sequential: This folder contains the code, the data and the images obtained for the sequential version of the program.
 
-## Modules
+- Parallel: This folder contains three subfolders each containing different strategies of parallelization:
 
-### Parameters.f90:
+       1. Parallel_v1
+       2. Parallel_v2
+       3. Parallel_v3
 
-Module with all the needed parameters known of the problem.
+each of this folders has the code, the data and the images obtained for each version of the parallel program.
+
+## Modules shared by Sequential and Parallel:
+
+### reader.f90:
+
+Module with subroutine that reads the input of the program.
 
 ### Initialize.f90:
 
@@ -108,9 +119,19 @@ Makefile used to:
 
 This file contains all the information that the program needs to simulate the system. It is very important not to change the format of it and to put the numbers matching Fortran 90's syntax (i.e. 2.d0).
 
+## Modules only in Parallel
+
+### parallel.f90
+
+This module has the subroutine that assigns the number of particles to simulate each processor.
+
+### openmpi.sub
+
+This is the script used to send works to the cluster's queue.
+
 ---
 
-# How to compile?
+# 2. How to compile?
 
 1. First of all download all the files in this repository into your local computer, in the same directory.
 2. Go to this directory via command line and write:
@@ -118,6 +139,9 @@ This file contains all the information that the program needs to simulate the sy
         :> make
 
 This will create and executable named programa.exe.
+
+# 3. Running the program:
+## Sequential
 
 3. To run the program execute programa.exe.
 
@@ -128,12 +152,25 @@ This will create and executable named programa.exe.
   3.2. If you are using Windows:
 
     :> .\programa.exe
+    
+ ## Parallel
+ 
+ 3. To run the program execute programa.exe.
 
+        :> mpirun -np 4 programa.exe
+    
+    where this 4 is the number of processors you want to execute the program.
+    
+ # 4. Results
+ 
    This will generate two files:
 
    3.2.1. positions.xyz: To visualize the dynamics of the system with a molecular dynamics visualizer like VMD.
   
    3.2.2. Thermodynamics.dat: Contains the evolution of all the relevant magnitudes throughout the simulation.
+
+   3.2.3. gdr.dat: Contains the information to plot the radial distribution.
+
 
 4. To visualize the plots you must type in your command line
 
@@ -146,8 +183,3 @@ this will generate three plots:
   4.2. Evolution of the intantaneous temperature.
    
   4.3. Evolution of the instantaneous pressure.
-
-# Files from the simulation
-
-In this repository we have also included thermodynamics.dat file with all the calculations performed.
-
