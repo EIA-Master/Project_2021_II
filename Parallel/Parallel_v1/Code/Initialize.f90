@@ -1,7 +1,8 @@
+! Co-authors: Arnau Prat, Alba Fischer
 module initialize
+! Module that contains the subroutine to initialize the system
 implicit none
 contains
-
 
 subroutine initial(Npart,ro,temp,posi,vel,L)
 ! given a number of particles of a system of density ro and temperature temp,

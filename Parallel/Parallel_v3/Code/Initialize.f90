@@ -1,4 +1,6 @@
+!Co-authors: Arnau Prat, Alba Fischer
 module initialize
+! Module that contains the subroutine to initialize the system
 implicit none
 contains
 

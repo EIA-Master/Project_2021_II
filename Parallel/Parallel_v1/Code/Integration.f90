@@ -1,9 +1,14 @@
-! Author: Ignasi Puch
+! Co-authors: Ignasi Puch, Jaume Garcia, Arnau Prat
 
 	MODULE integration
+      ! Module that contains subroutine to implement one step of Velocity 
+      ! Verlet algorithm, subroutine to implement the integration of the 
+      ! equations of motion for all the particles of the system, subroutine
+      ! to implement Andersen Thermostat and subroutine to convert two 
+      ! random numbers from a uniform distribution into two others
+
 	IMPLICIT NONE
 	CONTAINS 
-	
 
 	SUBROUTINE Velocity_Verlet(N,dt,L,rcut,r,v,F,numproc,index_part,numsend,allgather,taskid,rnew,vnew,Fnew,pot)
 	! ************************************************************************************************ !

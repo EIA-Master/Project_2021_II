@@ -1,4 +1,7 @@
+! Author: Edgar Alvarez
 module forces
+! Module that contains the subroutine to implement forces and 
+! compute Lenard Jones potential. Pair parallel version
       use boundary
       use initialize
       implicit none
@@ -33,6 +36,7 @@ module forces
       do p = limits(taskid+1,1), limits(taskid+1,2)
       	i = pair(p,1) ! Particle 1 of pair p.
       	j = pair(p,2) ! Particle 2 of pair p.
+!        Following commented lines correspond to parallel version 1
 !        do i = index_particles(taskid+1,1), index_particles(taskid+1,2)
 !        do j = i+1, Natoms
                   dr(:) = r(:,i)-r(:,j)

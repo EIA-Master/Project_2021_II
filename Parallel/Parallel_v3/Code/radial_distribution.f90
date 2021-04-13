@@ -1,9 +1,22 @@
+! Author: Alba Fischer
 module radial_distribution      
+
+!     Module that contains subroutine that computes radial distribution
+!     function and subroutine to normalize this function  
+
       use boundary
       implicit none
       contains
       
       subroutine radial_dist(Natoms,Nradial,L,r,g)
+
+!     Calculates the radial distribution function of a system of N  
+!     identical particles interacting through a Lennard-Jones potential, 
+!     considering periodic boundary conditions.
+!     INPUT: r (array with x, y, z coordinates of particles),Natoms
+!     (number of particles), Nradial(number of bins),L (box length)
+!     OUTPUT: g (radial distribution normalized)
+
       implicit none
       double precision g(Nradial),r(3,Natoms),dr(3),dist,bin_size,L
       integer Natoms,i,j,k,coef,Nradial
@@ -27,6 +40,13 @@ module radial_distribution
       end subroutine radial_dist
 
       subroutine radial_dist_norm(Nradial,Natoms,Nsteps,L,rho,g)
+
+!     Normalize the radial distribution function
+!     INPUT: Nradial (number of bins), Natoms (number of particles),
+!     Nsteps (number of steps), L (box length), rho (density),
+!     g (radial distribution function)
+!     OUTPUT: g (radial distribution function normalized)
+
       implicit none
       double precision g(Nradial),V(Nradial),bin_size,rho,pi,L
       integer Nradial,i,Natoms,Nsteps

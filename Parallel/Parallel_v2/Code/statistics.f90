@@ -1,5 +1,9 @@
+!Co-authors: Ignasi Puch, Jaume Garcia, Arnau Prat
 module statistics
-! Module with functions and subroutines to calculate averages.
+! Module with functions and subroutines to calculate averages.It 
+! contains subroutine to calculate kinetic energy, subroutine to 
+! compute instant temperature,function to calculate total energy
+! and subroutine to compute pressure
 implicit none
 contains
 
